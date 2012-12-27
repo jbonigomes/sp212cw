@@ -24,6 +24,7 @@ public class BattleshipGame {
         replies.add("Yes");
         replies.add("yes");
         replies.add("y");
+        replies.add("Y");
 
         int limit;
         String reply;
