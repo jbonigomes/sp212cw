@@ -3,7 +3,7 @@
  * Ocean keeps track of shots fired, hit count and number of ships sunk.
  * Ocean provides checks for whether a shot hits a ship, sinks it or misses.
  */
-package batteships;
+package battleships;
 
 /**
  * @author MARGARET WRIGHT

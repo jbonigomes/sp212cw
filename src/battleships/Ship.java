@@ -2,7 +2,7 @@
  * Class Ship describes characteristics common to all the ships.
  *
  */
-package batteships;
+package battleships;
 
 import lombok.AccessLevel;
 import lombok.Getter;

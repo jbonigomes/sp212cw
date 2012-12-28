@@ -4,7 +4,7 @@
  * Length of 1
  *
  */
-package batteships;
+package battleships;
 
 /**
  * @author KLM

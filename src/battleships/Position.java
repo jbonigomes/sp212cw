@@ -2,7 +2,7 @@
  * Class Position
  * 
  */
-package batteships;
+package battleships;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import lombok.Setter;
  * @author keith
  */
 
-@AllArgsConstructor
+//@AllArgsConstructor
 public class Position {
 
     @Getter
@@ -24,4 +24,9 @@ public class Position {
     @Getter
     @Setter(AccessLevel.PACKAGE)
     private int y;
+
+    public Position(int x, int y) {
+    	this.x = x;
+    	this.y = y;
+    }
 }

@@ -6,7 +6,7 @@
 
 /* uses Java 7 features */
 
-package batteships;
+package battleships;
 
 import java.util.HashSet;
 import java.util.Scanner;
@@ -20,7 +20,7 @@ public class BattleshipGame {
 
     public static void main(String[] args) {
 
-        Set<String> replies = new HashSet<>();   // TODO - improve this
+        Set<String> replies = new HashSet<String>();   // TODO - improve this
         replies.add("Yes");
         replies.add("yes");
         replies.add("y");
@@ -32,25 +32,28 @@ public class BattleshipGame {
 
         do {
             // set up the game
-            Ocean oc = new Ocean();
-            oc.placeAllShipsRandomly();
+            // uncomment me - Ocean oc = new Ocean();
+            // uncomment me - oc.placeAllShipsRandomly();
             System.out.println();
-            System.out.println(oc);
-            limit = oc.getDimension();
+            System.out.println(/* uncomment me oc*/ '+');
+            limit = 5; // uncomment me - oc.getDimension();
+
+            int counter = 5; // delete this line
 
             do {
                 // read in the shot
                 Position p = getValidInput(input, limit);
                 // accept shots & check whether it's a hit (in Ocean)
-                if (!oc.shootAt(p.getX(), p.getY())) // a miss
+                if (/* uncomment me - !oc.shootAt(p.getX(), p.getY())*/ true) // a miss
                     System.out.println("A miss, try again.");
 
-                System.out.println(oc);
+                // uncomment me - System.out.println(oc);
                 System.out.println("[. is empty sea; X is a miss; H is a hit; $ is a sunken ship.]");
                 System.out.println();
-            } while (!oc.isGameOver());
+                counter++;
+            } while (/* uncomment me - !oc.isGameOver()*/ counter > 0);
             // print out final scores
-            System.out.println(oc.printFinalScores());
+            System.out.println(/* uncomment me - oc.printFinalScores()*/ "the scores will be printed here");
 
             System.out.print("Do you want to play again (Yes or No)? ");
             reply = input.next();
@@ -93,9 +96,7 @@ public class BattleshipGame {
                 return coordinate;
             } // checks for not an integer
             catch (Exception ex) {
-                System.err
-                        .println("Invalid answer - please enter a number between 0-"
-                                + limit + ".");
+                System.err.println("Invalid answer - please enter a number between 0-" + limit + ".");
                 input.nextLine();
             } // end of catch
         } while (true);
