@@ -17,7 +17,9 @@
 
 > Desktop
 >> lombok.jar
+
 >> jUnit.jar
+
 >> bin
 >>> battleships
 >>>> *.class
@@ -27,8 +29,11 @@
 
 > Desktop
 >> lombok.jar
+
 >> jUnit.jar
+
 >> bin
+
 >> src
 >>> battleships
 >>>> *.java
