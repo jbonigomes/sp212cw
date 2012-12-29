@@ -50,4 +50,4 @@ Download the contents of the src directory to your desktop, as per [above](#for-
 
 > Once compiled, you may play the game as per instructions [above](#how-to-play)
 
-> This documentation assumes you have _*Java/javac*_ correctly installed in your environment
+> This documentation assumes you have _**Java/javac**_ correctly installed in your environment
