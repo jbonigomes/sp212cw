@@ -1,5 +1,5 @@
 # Battleships coursework
-## Assessment for the Software and Programming II module at Birkbeck, University of London
+### Assessment for the Software and Programming II module at Birkbeck, University of London
 
 - Author: Jose B. Gomes
 - Tutor: Keith Mannock
@@ -13,7 +13,7 @@
 
 ## Directory structure assumed
 
-### For playing only
+#### For playing only
 
 	Desktop/
 		bin/
@@ -22,7 +22,7 @@
 		lombok.jar
 		jUnit.jar
 
-### For compiling code only
+#### For compiling code only
 
 	Desktop/
 		bin/
@@ -46,6 +46,6 @@ Download the contents of the src directory to your desktop, as per [above](#for-
 	javac -d bin -sourcepath src -classpath bin:lombok.jar:jUnit.jar src/battleships/<fileName>.java
 	javac -d bin -sourcepath src -classpath bin:/Users/jbonigomes/Desktop/lombok/lombok.jar src/battleships/<fileName>.java
 
-> The code above will automatically create the _**battleships**_ directory under _**bin**_
-> Once compiled, you may play the game as per instructions [above](#how-to-play)
-> This documentation assumes you have _**Java/javac**_ correctly installed in your environment
+> The code above will automatically create the _**battleships**_ directory under _**bin**_ <br>
+> Once compiled, you may play the game as per instructions [above](#how-to-play) <br>
+> This documentation assumes you have _**Java/javac**_ correctly installed in your environment <br>
