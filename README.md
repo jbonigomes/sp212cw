@@ -15,28 +15,22 @@
 
 ### For playing only
 
-> Desktop
->> lombok.jar
-
->> jUnit.jar
-
->> bin
->>> battleships
->>>> *.class
-
+	Desktop/
+		bin/
+			battleships/
+				*.class
+		lombok.jar
+		jUnit.jar
 
 ### For compiling code only
 
-> Desktop
->> lombok.jar
-
->> jUnit.jar
-
->> bin
-
->> src
->>> battleships
->>>> *.java
+	Desktop/
+		bin/
+		src/
+			battleships/
+				*.java
+		lombok.jar
+		jUnit.jar
 
 ## How to play
 
@@ -52,6 +46,6 @@ Download the contents of the src directory to your desktop, as per [above](#for-
 	javac -d bin -sourcepath src -classpath bin:lombok.jar:jUnit.jar src/battleships/<fileName>.java
 	javac -d bin -sourcepath src -classpath bin:/Users/jbonigomes/Desktop/lombok/lombok.jar src/battleships/<fileName>.java
 
-1.	The code above will automatically create the _**battleships**_ directory under _**bin**_
-+	Once compiled, you may play the game as per instructions [above](#how-to-play)
-+	This documentation assumes you have _**Java/javac**_ correctly installed in your environment
+> The code above will automatically create the _**battleships**_ directory under _**bin**_
+> Once compiled, you may play the game as per instructions [above](#how-to-play)
+> This documentation assumes you have _**Java/javac**_ correctly installed in your environment
