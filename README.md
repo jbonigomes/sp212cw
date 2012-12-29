@@ -16,22 +16,22 @@
 ### For playing only
 
 > Desktop
+>> lombok.jar
+>> jUnit.jar
 >> bin
 >>> battleships
 >>>> *.class
->> lombok.jar
->> jUnit.jar
 
 
 ### For compiling code only
 
 > Desktop
+>> lombok.jar
+>> jUnit.jar
 >> bin
 >> src
 >>> battleships
 >>>> *.java
->> lombok.jar
->> jUnit.jar
 
 ## How to play
 
