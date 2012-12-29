@@ -64,8 +64,7 @@ public abstract class Ship {
      * @return true if it is okay to put a ship of this size with its bow in
      *         this location, with the given orientation.
      */
-    public boolean okToPlaceShipAt(int row, int column, boolean horizontal,
-                                   Ocean ocean) {
+    public boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean) {
         // TODO add appropriate code and comments
 
         return true;

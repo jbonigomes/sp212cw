@@ -32,28 +32,25 @@ public class BattleshipGame {
 
         do {
             // set up the game
-            // uncomment me - Ocean oc = new Ocean();
-            // uncomment me - oc.placeAllShipsRandomly();
+            Ocean oc = new Ocean();
+            oc.placeAllShipsRandomly();
             System.out.println();
-            System.out.println(/* uncomment me oc*/ '+');
-            limit = 5; // uncomment me - oc.getDimension();
-
-            int counter = 5; // delete this line
+            System.out.println(oc);
+            limit = oc.getDimension();
 
             do {
                 // read in the shot
                 Position p = getValidInput(input, limit);
                 // accept shots & check whether it's a hit (in Ocean)
-                if (/* uncomment me - !oc.shootAt(p.getX(), p.getY())*/ true) // a miss
+                if (!oc.shootAt(p.getX(), p.getY())) // a miss
                     System.out.println("A miss, try again.");
 
-                // uncomment me - System.out.println(oc);
+                System.out.println(oc);
                 System.out.println("[. is empty sea; X is a miss; H is a hit; $ is a sunken ship.]");
                 System.out.println();
-                counter++;
-            } while (/* uncomment me - !oc.isGameOver()*/ counter > 0);
+            } while (!oc.isGameOver());
             // print out final scores
-            System.out.println(/* uncomment me - oc.printFinalScores()*/ "the scores will be printed here");
+            System.out.println(oc.printFinalScores());
 
             System.out.print("Do you want to play again (Yes or No)? ");
             reply = input.next();
