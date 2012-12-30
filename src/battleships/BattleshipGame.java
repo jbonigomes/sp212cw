@@ -16,11 +16,11 @@ import java.util.Set;
  * @author MARGARET WRIGHT
  * @author KLM
  */
-public class BattleshipGame {
-
-    public static void main(String[] args) {
-
-        Set<String> replies = new HashSet<String>();   // TODO - improve this
+public class BattleshipGame
+{
+    public static void main(String[] args)
+    {
+        Set<String> replies = new HashSet<String>();
         replies.add("Yes");
         replies.add("yes");
         replies.add("y");
@@ -30,7 +30,8 @@ public class BattleshipGame {
         String reply;
         Scanner input = new Scanner(System.in);
 
-        do {
+        do
+        {
             // set up the game
             Ocean oc = new Ocean();
             oc.placeAllShipsRandomly();
@@ -38,22 +39,30 @@ public class BattleshipGame {
             System.out.println(oc);
             limit = oc.getDimension();
 
-            do {
+            do
+            {
                 // read in the shot
                 Position p = getValidInput(input, limit);
+
                 // accept shots & check whether it's a hit (in Ocean)
-                if (!oc.shootAt(p.getX(), p.getY())) // a miss
+                if (!oc.shootAt(p.getX(), p.getY()))
+                {
+                    // a miss
                     System.out.println("A miss, try again.");
+                }
 
                 System.out.println(oc);
                 System.out.println("[. is empty sea; X is a miss; H is a hit; $ is a sunken ship.]");
                 System.out.println();
+
             } while (!oc.isGameOver());
+            
             // print out final scores
             System.out.println(oc.printFinalScores());
 
             System.out.print("Do you want to play again (Yes or No)? ");
             reply = input.next();
+
         } while (replies.contains(reply)); // play again?
     }
 
@@ -65,7 +74,8 @@ public class BattleshipGame {
      *
      * @return the valid shot location
      */
-    private static Position getValidInput(Scanner input, int limit) {
+    private static Position getValidInput(Scanner input, int limit)
+    {
         // x is the row; y is the column
         int x, y;
         System.out.println();
@@ -82,20 +92,27 @@ public class BattleshipGame {
      *
      * @return the valid co-ordinate
      */
-    private static int askForInput(Scanner input, String rowCol, int limit) {
+    private static int askForInput(Scanner input, String rowCol, int limit)
+    {
         int coordinate;
-        do {
-            try {
-                do {
+        do
+        {
+            try
+            {
+                do
+                {
                     System.out.print(rowCol);
                     coordinate = input.nextInt();
                 } while (coordinate < 0 || coordinate > limit - 1);
+
                 return coordinate;
-            } // checks for not an integer
-            catch (Exception ex) {
+            }
+            catch (Exception ex) // checks for not an integer
+            {
                 System.err.println("Invalid answer - please enter a number between 0-" + limit + ".");
                 input.nextLine();
-            } // end of catch
+            }
+
         } while (true);
     }
 }
