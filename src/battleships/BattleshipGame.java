@@ -13,18 +13,20 @@ import java.util.Scanner;
 import java.util.Set;
 
 /**
+ *
+ * This class contains the main method, run it to play the battleship game
+ *
  * @author MARGARET WRIGHT
  * @author KLM
+ * @author Jose B. Gomes
  */
 public class BattleshipGame
 {
     public static void main(String[] args)
     {
         Set<String> replies = new HashSet<String>();
-        replies.add("Yes");
         replies.add("yes");
         replies.add("y");
-        replies.add("Y");
 
         int limit;
         String reply;
@@ -62,6 +64,7 @@ public class BattleshipGame
 
             System.out.print("Do you want to play again (Yes or No)? ");
             reply = input.next();
+            reply = reply.toLowerCase();
 
         } while (replies.contains(reply)); // play again?
     }
@@ -103,6 +106,7 @@ public class BattleshipGame
                 {
                     System.out.print(rowCol);
                     coordinate = input.nextInt();
+
                 } while (coordinate < 0 || coordinate > limit - 1);
 
                 return coordinate;

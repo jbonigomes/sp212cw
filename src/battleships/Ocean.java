@@ -3,6 +3,7 @@
  * Ocean keeps track of shots fired, hit count and number of ships sunk.
  * Ocean provides checks for whether a shot hits a ship, sinks it or misses.
  */
+
 package battleships;
 
 /**
@@ -13,25 +14,30 @@ package battleships;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.Random;
 
-public class Ocean {
-
-    private static final int UPPER;  // upper bound of the (square) board
+public class Ocean
+{
+    // upper bound of the (square) board
+    private static final int UPPER;
 
     private final Ship[][] board;
+
     @Getter
     @Setter
     private int shotsFired;
+
     @Getter
     @Setter(AccessLevel.PRIVATE)
     private int hitCount;
+
     @Getter
     @Setter(AccessLevel.PRIVATE)
     private int shipsSunk;
 
-    static {  // just to show how to use static initialization blocks
+    // just to show how to use static initialization blocks
+    static
+    {
         UPPER = 10;
     }
 
@@ -39,13 +45,18 @@ public class Ocean {
      * Creates an "empty" ocean (fills the board array with EmptySeas). Also
      * initialises game variables, shotsFired, hitCount & shipsSunk
      */
-    public Ocean() {
+    public Ocean()
+    {
         board = new Ship[UPPER][UPPER];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
+        
+        for (int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
                 board[i][j] = new EmptySea();
             }
         }
+
         setShotsFired(0);
         setHitCount(0);
         setShipsSunk(0);
@@ -54,14 +65,16 @@ public class Ocean {
     /**
      * @return the size of the row/column
      */
-    public int getDimension() {
+    public int getDimension()
+    {
         return board.length;
     }
 
     /**
      * Places all 10 board randomly on the (initially empty) ocean.
      */
-    public void placeAllShipsRandomly() {
+    public void placeAllShipsRandomly()
+    {
         // TODO
         // this does not have a "random" fleet - you should have one
         Ship[] fleet = new Ship[UPPER];
@@ -77,12 +90,16 @@ public class Ocean {
         fleet[9] = new Submarine();
 
         Random m = new Random();
+        
         // x is row position; y is column position
         int x, y;
+        
         // boolean to represent horizontal
         boolean b;
-        for (Ship s : fleet) {
-            do {
+        for (Ship s : fleet)
+        {
+            do
+            {
                 // generate random x, y, horizontal
                 x = m.nextInt(UPPER); // x/row is random 0-9
                 y = m.nextInt(UPPER); // y/col is random 0-9
@@ -98,25 +115,34 @@ public class Ocean {
      * Prints the ocean.
      */
     @Override
-    public String toString() { // this replaces the "print" method of the spec
+    public String toString() // this replaces the "print" method of the spec
+    {
         final String SPACES = " ";
+        
         // have to use a mutable String based data structure for efficiency
         StringBuilder buffer = new StringBuilder();
         buffer.append(" ");
-        for (int i = 0; i < board[0].length; i++) {
+        
+        for (int i = 0; i < board[0].length; i++)
+        {
             buffer.append(SPACES);
             buffer.append(i);
         }
+
         buffer.append("\n");
 
-        for (int i = 0; i < board.length; i++) {
+        for (int i = 0; i < board.length; i++)
+        {
             buffer.append(i);
-            for (int j = 0; j < board[0].length; j++) {
+            for (int j = 0; j < board[0].length; j++)
+            {
                 buffer.append(SPACES);
                 buffer.append(board[i][j]);
             }
+
             buffer.append("\n");
         }
+
         return buffer.toString();
     }
 
@@ -127,7 +153,8 @@ public class Ocean {
      * @param column the y position on the board
      * @return true if the given location contains a ship, false if it does not.
      */
-    public boolean isOccupied(int row, int column) {
+    public boolean isOccupied(int row, int column)
+    {
         return !(board[row][column] instanceof EmptySea);
     }
 
@@ -140,18 +167,22 @@ public class Ocean {
      * @param column the y position
      * @return true if location contains a "real" ship, still afloat, false if not.
      */
-    public boolean shootAt(int row, int column) {
+    public boolean shootAt(int row, int column)
+    {
         // increment the number of shots fired regardless of result
         // use of accessor so that internal representation can change without effecting usage
         setShotsFired(getShotsFired() + 1);
 
         // check for a ship
-        if (isOccupied(row, column)) {  // okay - this is a ship
+        if (isOccupied(row, column))
+        {
+            // okay - this is a ship
             // get the ship
             board[row][column].shootAt(row, column);
             setHitCount(getHitCount() + 1);
             return true;
         }
+
         return false;
     }
 
@@ -162,7 +193,8 @@ public class Ocean {
      * @return the "fleet" has been sunk
      */
 
-    public boolean isGameOver() {
+    public boolean isGameOver()
+    {
         // check whether all board in fleet have been sunk
         return getShipsSunk() == UPPER;
     }
@@ -174,14 +206,16 @@ public class Ocean {
      *
      * @return the array of board
      */
-    public Ship[][] getShipArray() {
+    public Ship[][] getShipArray()
+    {
         return board;
     }
 
     /**
      * A string containing the final results for hits, ships sunk and shots fired
      */
-    public String printFinalScores() {
+    public String printFinalScores()
+    {
         StringBuilder strbld = new StringBuilder();
         strbld.append("GAME OVER!! You scored ").append(this.getHitCount()).append(".");
         strbld.append("You sank ").append(this.getShipsSunk()).append(" ships");
