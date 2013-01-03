@@ -13,7 +13,8 @@ import lombok.Setter;
  * @author KLM
  */
 
-public abstract class Ship {
+public abstract class Ship
+{
     // TODO add appropriate comments
     @Getter
     private int size;
@@ -49,7 +50,9 @@ public abstract class Ship {
         this.shortForm = shortForm;
         hit = new boolean[size];
         for (int i = 0; i < hit.length; i++)
+        {
             hit[i] = false;
+        }
     }
 
     /**
