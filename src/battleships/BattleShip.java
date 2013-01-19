@@ -4,19 +4,21 @@
  * Length 4
  * 
  */
+
 package battleships;
 
 /**
  * @author KLM
  */
-public class BattleShip extends Ship {
+public class BattleShip extends Ship
+{
+	private final static int SIZE = 4;
 
-    private final static int SIZE = 4;
-
-    /**
-     * sets the length & clears the hit array
-     */
-    public BattleShip() {
-        super(SIZE, "Battleship", "B");
-    }
+	/**
+	 * sets the length & clears the hit array
+	 */
+	public BattleShip()
+	{
+		super(SIZE, "Battleship", "B");
+	}
 }
