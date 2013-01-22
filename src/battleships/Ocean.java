@@ -75,9 +75,8 @@ public class Ocean
      */
     public void placeAllShipsRandomly()
     {
-        // TODO
-        // this does not have a "random" fleet - you should have one
         Ship[] fleet = new Ship[UPPER];
+        
         fleet[0] = new BattleShip();
         fleet[1] = new Cruiser();
         fleet[2] = new Cruiser();
@@ -96,6 +95,7 @@ public class Ocean
         
         // boolean to represent horizontal
         boolean b;
+
         for (Ship s : fleet)
         {
             do
@@ -104,8 +104,8 @@ public class Ocean
                 x = m.nextInt(UPPER); // x/row is random 0-9
                 y = m.nextInt(UPPER); // y/col is random 0-9
                 b = m.nextInt(2) == 1; // horizontal : 1 is true; 0 is false
-            } while (!s.okToPlaceShipAt(x, y, b, this));
-
+            } while(!s.okToPlaceShipAt(x, y, b, this));
+            
             // it is safe to place the ship
             s.placeShipAt(x, y, b, this);
         }

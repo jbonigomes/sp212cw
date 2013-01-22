@@ -67,11 +67,131 @@ public abstract class Ship
      * @return true if it is okay to put a ship of this size with its bow in
      *         this location, with the given orientation.
      */
-    public boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean) {
-        // TODO add appropriate code and comments
+    public boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        Ship ships[][] = ocean.getShipArray();
 
+        // for debugging only
+        //System.out.println("col: " + column + " row: " + row + " Dimension: " + ocean.getDimension() + " hor: " + horizontal + " size: " + getSize());
+
+        // check if it is horizontal
+        if(horizontal)
+        {
+            // check if numbers are within the correct range
+            if(row >= 0 && row < ocean.getDimension() && column >= 0 && (column + (getSize() - 1)) < ocean.getDimension())
+            {
+                if(column > 0)
+                {
+                    // check if left side is empty sea, if not, return false
+                    if(!(ships[row][column - 1] instanceof EmptySea))
+                    {
+                        return false;
+                    }
+                }
+                if((column + getSize()) < ocean.getDimension())
+                {
+                    // check if right side is empty sea
+                    if(!(ships[row][column + getSize()] instanceof EmptySea))
+                    {
+                        return false;
+                    }
+                }
+
+                for(int i = 0; i < getSize(); i++)
+                {
+                    // check if current cell is emptysea
+                    if(!(ships[row][column] instanceof EmptySea))
+                    {
+                        return false;
+                    }
+
+                    if(row > 0)
+                    {
+                        // check if top cell is empty sea
+                        if(!(ships[row - 1][column] instanceof EmptySea))
+                        {
+                            return false;
+                        }
+                    }
+
+                    if(row < (ocean.getDimension() - 1))
+                    {
+                        // check if bottom cell is empty sea
+                        if(!(ships[row + 1][column] instanceof EmptySea))
+                        {
+                            return false;
+                        }
+                    }
+
+                    column++;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        
+        }
+        else // must be vertical
+        {
+            // check if numbers are within the correct range
+            if(column >= 0 && column < ocean.getDimension() && row >= 0 && (row + (getSize() - 1)) < ocean.getDimension())
+            {
+                if(row > 0)
+                {
+                    // check if top side is empty sea
+                    if(!(ships[row - 1][column] instanceof EmptySea))
+                    {
+                        return false;
+                    }
+                }
+                if((row + getSize()) < ocean.getDimension())
+                {
+                    // check if bottom side is empty sea
+                    if(!(ships[row + getSize()][column] instanceof EmptySea))
+                    {
+                        return false;
+                    }
+                }
+
+                for(int i = 0; i < getSize(); i++)
+                {
+                    // check if current cell is empty sea
+                    if(!(ships[row][column] instanceof EmptySea))
+                    {
+                        return false;
+                    }
+
+                    if(column > 0)
+                    {
+                        // check if left cell is empty sea
+                        if(!(ships[row][column - 1] instanceof EmptySea))
+                        {
+                            return false;
+                        }
+                    }
+                    
+                    if(column < (ocean.getDimension() - 1))
+                    {
+                        // check if right cell is empty sea
+                        if(!(ships[row][column + 1] instanceof EmptySea))
+                        {
+                            return false;
+                        }
+                    }
+
+                    row++;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
         return true;
     }
+
 
 
     /**
@@ -84,20 +204,25 @@ public abstract class Ship
      * @param horizontal
      * @param ocean
      */
-    public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) {
-
+    public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean)
+    {
         this.setBowRow(row);
         this.setBowColumn(column);
         this.setHorizontal(horizontal);
 
         Ship ships[][] = ocean.getShipArray();
 
-        for (int i = 0; i < getSize(); i++) {
+        for(int i = 0; i < getSize(); i++)
+        {
             // set position in array to contain the ship
             ships[row][column] = this;
-            if (horizontal) {
+            
+            if(horizontal)
+            {
                 column++;
-            } else {
+            }
+            else
+            {
                 row++;
             }
         }
@@ -126,11 +251,15 @@ public abstract class Ship
      *
      * @return true if every part of the ship has been hit, false otherwise.
      */
-    public boolean isSunk() {
-
-        for (boolean b : hit)
-            if (!b)
+    public boolean isSunk()
+    {
+        for(boolean b : hit)
+        {
+            if(!b)
+            {
                 return false;
+            }
+        }
 
         return true;
     }
@@ -139,7 +268,8 @@ public abstract class Ship
      * @return a single character String to use in Ocean's print method
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return shortForm;
     }
 }

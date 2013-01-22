@@ -117,6 +117,6 @@ public class BattleshipGame
                 input.nextLine();
             }
 
-        } while (true);
+        } while(true);
     }
 }

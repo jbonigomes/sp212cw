@@ -15,8 +15,8 @@ import lombok.Setter;
  */
 
 //@AllArgsConstructor
-public class Position {
-
+public class Position
+{
     @Getter
     @Setter(AccessLevel.PACKAGE)
     private int x;
@@ -25,7 +25,8 @@ public class Position {
     @Setter(AccessLevel.PACKAGE)
     private int y;
 
-    public Position(int x, int y) {
+    public Position(int x, int y)
+    {
     	this.x = x;
     	this.y = y;
     }
