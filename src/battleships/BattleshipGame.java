@@ -57,7 +57,7 @@ public class BattleshipGame
                 System.out.println("[. is empty sea; X is a miss; H is a hit; $ is a sunken ship.]");
                 System.out.println();
 
-            } while (!oc.isGameOver());
+            } while(!oc.isGameOver());
             
             // print out final scores
             System.out.println(oc.printFinalScores());
@@ -66,7 +66,7 @@ public class BattleshipGame
             reply = input.next();
             reply = reply.toLowerCase();
 
-        } while (replies.contains(reply)); // play again?
+        } while(replies.contains(reply)); // play again?
     }
 
 

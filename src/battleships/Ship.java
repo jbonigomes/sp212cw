@@ -83,7 +83,7 @@ public abstract class Ship
                 if(column > 0)
                 {
                     // check if left side is empty sea, if not, return false
-                    if(!(ships[row][column - 1] instanceof EmptySea))
+                    if(ocean.isOccupied(row, column - 1))
                     {
                         return false;
                     }
@@ -100,7 +100,7 @@ public abstract class Ship
                 for(int i = 0; i < getSize(); i++)
                 {
                     // check if current cell is emptysea
-                    if(!(ships[row][column] instanceof EmptySea))
+                    if(ocean.isOccupied(row, column))
                     {
                         return false;
                     }
@@ -108,7 +108,7 @@ public abstract class Ship
                     if(row > 0)
                     {
                         // check if top cell is empty sea
-                        if(!(ships[row - 1][column] instanceof EmptySea))
+                        if(ocean.isOccupied(row - 1, column))
                         {
                             return false;
                         }
@@ -117,7 +117,7 @@ public abstract class Ship
                     if(row < (ocean.getDimension() - 1))
                     {
                         // check if bottom cell is empty sea
-                        if(!(ships[row + 1][column] instanceof EmptySea))
+                        if(ocean.isOccupied(row + 1, column))
                         {
                             return false;
                         }
@@ -140,7 +140,7 @@ public abstract class Ship
                 if(row > 0)
                 {
                     // check if top side is empty sea
-                    if(!(ships[row - 1][column] instanceof EmptySea))
+                    if(ocean.isOccupied(row - 1, column))
                     {
                         return false;
                     }
@@ -148,7 +148,7 @@ public abstract class Ship
                 if((row + getSize()) < ocean.getDimension())
                 {
                     // check if bottom side is empty sea
-                    if(!(ships[row + getSize()][column] instanceof EmptySea))
+                    if(ocean.isOccupied(row + getSize(), column))
                     {
                         return false;
                     }
@@ -157,7 +157,7 @@ public abstract class Ship
                 for(int i = 0; i < getSize(); i++)
                 {
                     // check if current cell is empty sea
-                    if(!(ships[row][column] instanceof EmptySea))
+                    if(ocean.isOccupied(row, column))
                     {
                         return false;
                     }
@@ -165,7 +165,7 @@ public abstract class Ship
                     if(column > 0)
                     {
                         // check if left cell is empty sea
-                        if(!(ships[row][column - 1] instanceof EmptySea))
+                        if(ocean.isOccupied(row, column - 1))
                         {
                             return false;
                         }
@@ -174,7 +174,7 @@ public abstract class Ship
                     if(column < (ocean.getDimension() - 1))
                     {
                         // check if right cell is empty sea
-                        if(!(ships[row][column + 1] instanceof EmptySea))
+                        if(ocean.isOccupied(row, column + 1))
                         {
                             return false;
                         }
@@ -235,10 +235,16 @@ public abstract class Ship
      * @param column User's supplied column shot
      * @return true if ship is hit, false otherwise
      */
-    public boolean shootAt(int row, int column) {
-        if ((isHorizontal() && (row != getBowRow()))
-                || (!isHorizontal() && (column != getBowColumn())))
+    public boolean shootAt(int row, int column)
+    {
+        if
+        (
+            (isHorizontal() && (row != getBowRow())) ||
+            (!isHorizontal() && (column != getBowColumn()))
+        )
+        {
             return false; // it's not a hit
+        }
 
         // it's a hit. Work out offset & set that position in hit array to true
         hit[(row - getBowRow() + column - getBowColumn())] = true;

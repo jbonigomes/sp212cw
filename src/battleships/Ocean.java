@@ -180,6 +180,13 @@ public class Ocean
             // get the ship
             board[row][column].shootAt(row, column);
             setHitCount(getHitCount() + 1);
+
+            // check if ship is sunk
+            if(board[row][column].isSunk())
+            {
+                setShipsSunk(getShipsSunk() + 1);
+            }
+
             return true;
         }
 
