@@ -40,6 +40,8 @@ public abstract class Ship
      */
     protected boolean[] hit;
 
+    protected boolean[] miss;
+
     /**
      * clears the hit array indicating whether that part of the "Ship" has been
      * hit
@@ -49,9 +51,11 @@ public abstract class Ship
         this.type = type;
         this.shortForm = shortForm;
         hit = new boolean[size];
+        miss = new boolean[size];
         for (int i = 0; i < hit.length; i++)
         {
             hit[i] = false;
+            miss[i] = false;
         }
     }
 
@@ -237,12 +241,18 @@ public abstract class Ship
      */
     public boolean shootAt(int row, int column)
     {
+
+        System.out.println("From Shoot at Row: " + row + "Col: " + column + "Writting: " + (row - getBowRow() + column - getBowColumn()));
+
         if
         (
             (isHorizontal() && (row != getBowRow())) ||
             (!isHorizontal() && (column != getBowColumn()))
         )
         {
+            // it's a miss. Work out offset & set that position in miss array to true
+            miss[(row - getBowRow() + column - getBowColumn())] = true;
+            
             return false; // it's not a hit
         }
 
@@ -270,12 +280,35 @@ public abstract class Ship
         return true;
     }
 
+    public void setShortForm(int row, int column)
+    {
+        if(isSunk())
+        {
+            this.shortForm = "$";
+        }
+        
+        /*else if(hit[])
+        {
+            this.shortForm = "H";
+        }
+        else if(miss[])
+        {
+            this.shortForm = "X";
+        }
+        else
+        {
+            this.shortForm = ".";
+        }*/
+
+        System.out.println("From setShortFormMethod - Row: " + row + " Col: " + column + " Writting: " + (row - getBowRow() + column - getBowColumn()));
+    }
+
     /**
      * @return a single character String to use in Ocean's print method
      */
     @Override
     public String toString()
-    {
+    {   
         return shortForm;
     }
 }

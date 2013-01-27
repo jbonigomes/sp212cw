@@ -136,6 +136,7 @@ public class Ocean
             buffer.append(i);
             for (int j = 0; j < board[0].length; j++)
             {
+                board[i][j].setShortForm(i, j);
                 buffer.append(SPACES);
                 buffer.append(board[i][j]);
             }

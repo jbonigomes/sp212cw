@@ -34,17 +34,18 @@
 
 ## How to play
 
-Download the contents of the bin directory to your desktop, as per [above](#for-playing-only), and run:
+Download the contents of the bin directory to your desktop, as per [above](#for-playing-only), cd to the root of the app folder and run:
 
 	java -classpath bin:lombok.jar:jUnit.jar battleships/BattleshipGame
 	java -classpath bin:/Users/jbonigomes/Desktop/lombok/lombok.jar battleships/BattleshipGame
 
 ## How to compile
 
-Download the contents of the src directory to your desktop, as per [above](#for-compiling-code-only), and run:
+Download the contents of the src directory to your desktop, as per [above](#for-compiling-code-only), cd to the root of the app folder and run:
 
 	javac -d bin -sourcepath src -classpath bin:lombok.jar:jUnit.jar src/battleships/<fileName>.java
 	javac -d bin -sourcepath src -classpath bin:/Users/jbonigomes/Desktop/lombok/lombok.jar src/battleships/<fileName>.java
+	javac -d bin -sourcepath src -classpath bin:/Users/jbonigomes/Desktop/lombok/lombok.jar src/battleships/*.java
 
 > The code above will automatically create the _**battleships**_ directory under _**bin**_ <br>
 > Once compiled, you may play the game as per instructions [above](#how-to-play) <br>

@@ -46,13 +46,27 @@ public class BattleshipGame
                 // read in the shot
                 Position p = getValidInput(input, limit);
 
+                System.out.println();
+                System.out.println();
+
                 // accept shots & check whether it's a hit (in Ocean)
-                if (!oc.shootAt(p.getX(), p.getY()))
+                if (oc.shootAt(p.getX(), p.getY()))
                 {
-                    // a miss
+                    if(false)
+                    {
+                        // you sank a ship of type blah
+                    }
+                    else
+                    {
+                        System.out.println("You got a hit, keep it up!");
+                    }
+                }
+                else
+                {
                     System.out.println("A miss, try again.");
                 }
 
+                System.out.println();
                 System.out.println(oc);
                 System.out.println("[. is empty sea; X is a miss; H is a hit; $ is a sunken ship.]");
                 System.out.println();
