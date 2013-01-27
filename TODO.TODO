@@ -2,13 +2,19 @@ To ask Keith:
 
  ☐ Random Fleet needs more explanation, is it about randomly placing them in the ocean?
 
- ✘ If a shot is fired where it was either a miss or hit before, what should happen? Should the shot count be increased? @cancelled (13-01-27 11:28)
+ ☐ If a shot is fired where it was either a miss or hit before, what should happen? Should the shot count be increased?
      This should not be allowed, the shot should not count otherwise you can finish the game using one square only
 
- ☐ A sample on unit testing
+ ☐ A sample on unit testing and how folder should be organized
+     There should be a folder called test at the same level as bin and src, the tests should belong to the battleship package
+     One new file per interface tested
+     One test method for each method in the interface
+     The import statements may give grief
+     The prefered annotation is @Test
+
 
  To code:
 
  ☐ Validate shot, to see if is not shooting at the same spot twice and user message
- ☐ Set the short form for the miss and hit
  ☐ Set the message when a ship is sunk
+ ☐ Set the short form for the miss and hit
