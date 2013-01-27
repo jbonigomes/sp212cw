@@ -77,6 +77,10 @@ public class Ocean
     {
         Ship[] fleet = new Ship[UPPER];
         
+        // this can be done programatically the rule is you have to have at least one of each type as well as a min/max of ten
+        // it helps to place big ships first
+        // hard coding is ok though
+
         fleet[0] = new BattleShip();
         fleet[1] = new Cruiser();
         fleet[2] = new Cruiser();
