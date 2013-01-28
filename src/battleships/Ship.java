@@ -18,6 +18,7 @@ public abstract class Ship
     // TODO add appropriate comments
     @Getter
     private int size;
+
     private String type;
     private String shortForm;
 
@@ -25,12 +26,17 @@ public abstract class Ship
     @Getter
     @Setter(AccessLevel.PACKAGE)
     private int bowRow;
+    
     @Getter
     @Setter(AccessLevel.PACKAGE)
     private int bowColumn;
+    
     @Getter
     @Setter(AccessLevel.PACKAGE)
     private boolean horizontal;
+    
+    @Setter(AccessLevel.PACKAGE)
+    private boolean notYetSunk;
 
     /**
      * An array of boolean which indicates whether that part of the ship has been hit.
@@ -44,15 +50,25 @@ public abstract class Ship
      * clears the hit array indicating whether that part of the "Ship" has been
      * hit
      */
-    protected Ship(int size, String type, String shortForm) {
+    protected Ship(int size, String type, String shortForm)
+    {
         this.size = size;
         this.type = type;
         this.shortForm = shortForm;
+        this.notYetSunk = true;
         hit = new boolean[size];
         for (int i = 0; i < hit.length; i++)
         {
             hit[i] = false;
         }
+    }
+
+    /**
+     * This method is here because it would not compile the lombok @Getter
+     */
+    public boolean getNotYetSunk()
+    {
+        return this.notYetSunk;
     }
 
     /**
@@ -289,7 +305,7 @@ public abstract class Ship
         }
         else
         {
-            if((row - getBowRow() + column - getBowColumn()))
+            if(/*(row - getBowRow() + column - getBowColumn())*/ false)
             {
                 this.shortForm = "H";
             }

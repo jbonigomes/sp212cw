@@ -21,3 +21,51 @@ To ask Keith:
  ☐ Validate shot, to see if is not shooting at the same spot twice and user message
  ☐ Set the message when a ship is sunk
  ☐ Set the short form for the miss and hit
+
+
+The UML:
+
+--- ✄ -----------------------
+Ocean
+--- ✄ -----------------------
+int UPPER
+ship[][] board
+int shotsFired
+int hitCount
+int shipSunk
+--- ✄ -----------------------
+getShotsFired
+setShotsFired
+getHitCount
+setHitCount
+getShipSunk
+setShipSunk
+getDimension
+placeAllShipsRandomly
+toString
+isOccupied
+shootAt
+isGameOver
+getShipArray
+printFinalScores
+
+
+--- ✄ -----------------------
+Ship
+--- ✄ -----------------------
+int size
+String type
+String shortForm
+int bowRow
+int bowColumn
+boolean horizontal
+boolean[] hit
+--- ✄ -----------------------
+okToPlaceShipAt
+placeShipAt
+shootAt
+isSunk
+setShortForm
+toString
+
+

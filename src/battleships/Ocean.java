@@ -187,7 +187,12 @@ public class Ocean
             // check if ship is sunk
             if(board[row][column].isSunk())
             {
-                setShipsSunk(getShipsSunk() + 1);
+                // just to ensure ship does not get sunk more than once
+                if(board[row][column].getNotYetSunk())
+                {
+                    board[row][column].setNotYetSunk(false);
+                    setShipsSunk(getShipsSunk() + 1);
+                }
             }
 
             return true;
