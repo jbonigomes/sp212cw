@@ -140,7 +140,6 @@ public class Ocean
             buffer.append(i);
             for (int j = 0; j < board[0].length; j++)
             {
-                board[i][j].setShortForm(i, j);
                 buffer.append(SPACES);
                 buffer.append(board[i][j]);
             }
@@ -179,11 +178,10 @@ public class Ocean
         setShotsFired(getShotsFired() + 1);
 
         // check for a ship
-        if (isOccupied(row, column))
+        if(board[row][column].shootAt(row, column, this))
         {
             // okay - this is a ship
-            // get the ship
-            board[row][column].shootAt(row, column);
+            // get the ship;
             setHitCount(getHitCount() + 1);
 
             // check if ship is sunk

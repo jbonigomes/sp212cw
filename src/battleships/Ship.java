@@ -40,8 +40,6 @@ public abstract class Ship
      */
     protected boolean[] hit;
 
-    protected boolean[] miss;
-
     /**
      * clears the hit array indicating whether that part of the "Ship" has been
      * hit
@@ -51,11 +49,9 @@ public abstract class Ship
         this.type = type;
         this.shortForm = shortForm;
         hit = new boolean[size];
-        miss = new boolean[size];
         for (int i = 0; i < hit.length; i++)
         {
             hit[i] = false;
-            miss[i] = false;
         }
     }
 
@@ -239,21 +235,22 @@ public abstract class Ship
      * @param column User's supplied column shot
      * @return true if ship is hit, false otherwise
      */
-    public boolean shootAt(int row, int column)
+    public boolean shootAt(int row, int column, Ocean ocean)
     {
-
-        System.out.println("From Shoot at Row: " + row + "Col: " + column + "Writting: " + (row - getBowRow() + column - getBowColumn()));
+        setShortForm(row, column, ocean);
 
         if
         (
             (isHorizontal() && (row != getBowRow())) ||
             (!isHorizontal() && (column != getBowColumn()))
         )
-        {
-            // it's a miss. Work out offset & set that position in miss array to true
-            miss[(row - getBowRow() + column - getBowColumn())] = true;
-            
+        {   
             return false; // it's not a hit
+        }
+
+        if(!ocean.isOccupied(row, column))
+        {
+            return false;
         }
 
         // it's a hit. Work out offset & set that position in hit array to true
@@ -280,27 +277,27 @@ public abstract class Ship
         return true;
     }
 
-    public void setShortForm(int row, int column)
+    public void setShortForm(int row, int column, Ocean ocean)
     {
         if(isSunk())
         {
             this.shortForm = "$";
-        }
-        
-        /*else if(hit[])
-        {
-            this.shortForm = "H";
-        }
-        else if(miss[])
+        } 
+        else if(!ocean.isOccupied(row, column))
         {
             this.shortForm = "X";
         }
         else
         {
-            this.shortForm = ".";
-        }*/
-
-        System.out.println("From setShortFormMethod - Row: " + row + " Col: " + column + " Writting: " + (row - getBowRow() + column - getBowColumn()));
+            if((row - getBowRow() + column - getBowColumn()))
+            {
+                this.shortForm = "H";
+            }
+            else
+            {
+                this.shortForm = ".";
+            }
+        }
     }
 
     /**
