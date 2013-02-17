@@ -125,7 +125,7 @@ public class Ocean
         
         // have to use a mutable String based data structure for efficiency
         StringBuilder buffer = new StringBuilder();
-        buffer.append(" ");
+        buffer.append(SPACES);
         
         for (int i = 0; i < board[0].length; i++)
         {
@@ -140,6 +140,15 @@ public class Ocean
             buffer.append(i);
             for (int j = 0; j < board[0].length; j++)
             {
+                if(board[i][j].isSunk())
+                {
+                    board[i][j].setShortForm("$");
+                }
+                else if(board[i][j].isAreaHit(i, j))
+                {
+                    board[i][j].setShortForm("H");
+                }
+
                 buffer.append(SPACES);
                 buffer.append(board[i][j]);
             }
@@ -177,8 +186,8 @@ public class Ocean
         // use of accessor so that internal representation can change without effecting usage
         setShotsFired(getShotsFired() + 1);
 
-        // check for a ship
-        if(board[row][column].shootAt(row, column, this))
+        // check for a ship and ensure ship does not get sunk more than once
+        if(board[row][column].shootAt(row, column, this) && board[row][column].getNotYetSunk())
         {
             // okay - this is a ship
             // get the ship;
@@ -187,12 +196,8 @@ public class Ocean
             // check if ship is sunk
             if(board[row][column].isSunk())
             {
-                // just to ensure ship does not get sunk more than once
-                if(board[row][column].getNotYetSunk())
-                {
-                    board[row][column].setNotYetSunk(false);
-                    setShipsSunk(getShipsSunk() + 1);
-                }
+                board[row][column].setNotYetSunk(false);
+                setShipsSunk(getShipsSunk() + 1);
             }
 
             return true;
@@ -200,7 +205,6 @@ public class Ocean
 
         return false;
     }
-
 
     /**
      * Returns true if all the ships on the board have been sunk, otherwise false.

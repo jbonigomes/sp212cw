@@ -50,16 +50,10 @@ public class BattleshipGame
                 System.out.println();
 
                 // accept shots & check whether it's a hit (in Ocean)
-                if (oc.shootAt(p.getX(), p.getY()))
+                if(oc.shootAt(p.getX(), p.getY()))
                 {
-                    if(false)
-                    {
-                        // you sank a ship of type blah
-                    }
-                    else
-                    {
-                        System.out.println("You got a hit, keep it up!");
-                    }
+                    // you sank a ship of type blah
+                    System.out.println("You got a hit, keep it up!");
                 }
                 else
                 {

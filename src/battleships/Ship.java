@@ -253,21 +253,14 @@ public abstract class Ship
      */
     public boolean shootAt(int row, int column, Ocean ocean)
     {
-        setShortForm(row, column, ocean);
-
-        if
-        (
-            (isHorizontal() && (row != getBowRow())) ||
-            (!isHorizontal() && (column != getBowColumn()))
-        )
-        {   
-            return false; // it's not a hit
-        }
-
+        // check if it is a hit
         if(!ocean.isOccupied(row, column))
         {
+            setShortForm("X");
             return false;
         }
+
+        System.out.println(row - getBowRow() + column - getBowColumn() + " from shootAt");
 
         // it's a hit. Work out offset & set that position in hit array to true
         hit[(row - getBowRow() + column - getBowColumn())] = true;
@@ -293,27 +286,22 @@ public abstract class Ship
         return true;
     }
 
-    public void setShortForm(int row, int column, Ocean ocean)
+    public boolean isAreaHit(int row, int column)
     {
-        if(isSunk())
+        // we don't care about empty sea
+        if(this.type == "EmptySea")
         {
-            this.shortForm = "$";
-        } 
-        else if(!ocean.isOccupied(row, column))
-        {
-            this.shortForm = "X";
+            return false;
         }
-        else
-        {
-            if(/*(row - getBowRow() + column - getBowColumn())*/ false)
-            {
-                this.shortForm = "H";
-            }
-            else
-            {
-                this.shortForm = ".";
-            }
-        }
+
+        System.out.println(row - getBowRow() + column - getBowColumn() + " from isAreaHit");
+
+        return hit[(row - getBowRow() + column - getBowColumn())];
+    }
+
+    public void setShortForm(String shortForm)
+    {
+        this.shortForm = shortForm;
     }
 
     /**
