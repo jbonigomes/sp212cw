@@ -12,6 +12,7 @@ package battleships;
 public class EmptySea extends Ship
 {
 	private final static int SIZE = 1;
+	private boolean miss;
 
 	/**
 	 * sets the length & clears the hit array
@@ -19,5 +20,16 @@ public class EmptySea extends Ship
 	public EmptySea()
 	{
 		super(SIZE, "EmptySea", ".");
+		this.miss = false;
+	}
+
+	public boolean getMissHit()
+	{
+		return this.miss;
+	}
+
+	public void setMissHit()
+	{
+		this.miss = true;
 	}
 }

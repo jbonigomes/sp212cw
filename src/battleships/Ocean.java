@@ -144,9 +144,17 @@ public class Ocean
                 {
                     board[i][j].setShortForm("$");
                 }
+                else if(board[i][j].isHitEmptySea())
+                {
+                    board[i][j].setShortForm("X");
+                }
                 else if(board[i][j].isAreaHit(i, j))
                 {
                     board[i][j].setShortForm("H");
+                }
+                else
+                {
+                    board[i][j].setShortForm(".");
                 }
 
                 buffer.append(SPACES);
@@ -237,7 +245,7 @@ public class Ocean
     {
         StringBuilder strbld = new StringBuilder();
         strbld.append("GAME OVER!! You scored ").append(this.getHitCount()).append(".");
-        strbld.append("You sank ").append(this.getShipsSunk()).append(" ships");
+        strbld.append(" You sank ").append(this.getShipsSunk()).append(" ships");
         strbld.append(" and used ").append(this.getShotsFired()).append(" shots" + ".");
         return strbld.toString();
     }

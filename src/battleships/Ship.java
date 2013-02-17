@@ -71,6 +71,27 @@ public abstract class Ship
         return this.notYetSunk;
     }
 
+    
+    public boolean withinRange(int row, int column, boolean horizontal, int oceanDimension)
+    {
+        if(horizontal)
+        {
+            if(row >= 0 && row < oceanDimension && column >= 0 && (column + (getSize() - 1)) < oceanDimension)
+            {
+                return true;
+            }
+        }
+        else
+        {
+            if(column >= 0 && column < oceanDimension && row >= 0 && (row + (getSize() - 1)) < oceanDimension)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Checks that ship of this size will not overlap another ship, or touch
      * another ship (vertically, horizontally, or diagonally) and that ship will
@@ -87,127 +108,93 @@ public abstract class Ship
     {
         Ship ships[][] = ocean.getShipArray();
 
-        // for debugging only
-        //System.out.println("col: " + column + " row: " + row + " Dimension: " + ocean.getDimension() + " hor: " + horizontal + " size: " + getSize());
+        int oceanDimension = ocean.getDimension();
+
+        // check if numbers are within range
+        if(!(withinRange(row, column, horizontal, oceanDimension)))
+        {
+            return false;
+        }
 
         // check if it is horizontal
         if(horizontal)
         {
-            // check if numbers are within the correct range
-            if(row >= 0 && row < ocean.getDimension() && column >= 0 && (column + (getSize() - 1)) < ocean.getDimension())
-            {
-                if(column > 0)
-                {
-                    // check if left side is empty sea, if not, return false
-                    if(ocean.isOccupied(row, column - 1))
-                    {
-                        return false;
-                    }
-                }
-                if((column + getSize()) < ocean.getDimension())
-                {
-                    // check if right side is empty sea
-                    if(!(ships[row][column + getSize()] instanceof EmptySea))
-                    {
-                        return false;
-                    }
-                }
-
-                for(int i = 0; i < getSize(); i++)
-                {
-                    // check if current cell is emptysea
-                    if(ocean.isOccupied(row, column))
-                    {
-                        return false;
-                    }
-
-                    if(row > 0)
-                    {
-                        // check if top cell is empty sea
-                        if(ocean.isOccupied(row - 1, column))
-                        {
-                            return false;
-                        }
-                    }
-
-                    if(row < (ocean.getDimension() - 1))
-                    {
-                        // check if bottom cell is empty sea
-                        if(ocean.isOccupied(row + 1, column))
-                        {
-                            return false;
-                        }
-                    }
-
-                    column++;
-                }
-            }
-            else
+            // check if left side is empty sea, if not, return false
+            if((column > 0) && (ocean.isOccupied(row, column - 1)))
             {
                 return false;
+            }
+
+            // check if right side is empty sea
+            if(((column + getSize()) < ocean.getDimension()) && (!(ships[row][column + getSize()] instanceof EmptySea)))
+            {
+                return false;
+            }
+
+            for(int i = 0; i < getSize(); i++)
+            {
+                // check if current cell is emptysea
+                if(ocean.isOccupied(row, column))
+                {
+                    return false;
+                }
+
+                // check if top cell is empty sea
+                if((row > 0) && (ocean.isOccupied(row - 1, column)))
+                {
+                    return false;
+                }
+
+                // check if bottom cell is empty sea
+                if((row < (ocean.getDimension() - 1)) && (ocean.isOccupied(row + 1, column)))
+                {
+                    return false;
+                }
+
+                column++;
             }
         
         }
         else // must be vertical
         {
-            // check if numbers are within the correct range
-            if(column >= 0 && column < ocean.getDimension() && row >= 0 && (row + (getSize() - 1)) < ocean.getDimension())
-            {
-                if(row > 0)
-                {
-                    // check if top side is empty sea
-                    if(ocean.isOccupied(row - 1, column))
-                    {
-                        return false;
-                    }
-                }
-                if((row + getSize()) < ocean.getDimension())
-                {
-                    // check if bottom side is empty sea
-                    if(ocean.isOccupied(row + getSize(), column))
-                    {
-                        return false;
-                    }
-                }
-
-                for(int i = 0; i < getSize(); i++)
-                {
-                    // check if current cell is empty sea
-                    if(ocean.isOccupied(row, column))
-                    {
-                        return false;
-                    }
-
-                    if(column > 0)
-                    {
-                        // check if left cell is empty sea
-                        if(ocean.isOccupied(row, column - 1))
-                        {
-                            return false;
-                        }
-                    }
-                    
-                    if(column < (ocean.getDimension() - 1))
-                    {
-                        // check if right cell is empty sea
-                        if(ocean.isOccupied(row, column + 1))
-                        {
-                            return false;
-                        }
-                    }
-
-                    row++;
-                }
-            }
-            else
+            // check if top side is empty sea
+            if((row > 0) && (ocean.isOccupied(row - 1, column)))
             {
                 return false;
+            }
+
+            // check if bottom side is empty sea
+            if(((row + getSize()) < ocean.getDimension()) && (ocean.isOccupied(row + getSize(), column)))
+            {
+                return false;
+            }
+
+            for(int i = 0; i < getSize(); i++)
+            {
+                // check if current cell is empty sea
+                if(ocean.isOccupied(row, column))
+                {
+                    return false;
+                }
+
+                // check if left cell is empty sea
+                if((column > 0) && (ocean.isOccupied(row, column - 1)))
+                {
+                    return false;
+                }
+                
+                // check if right cell is empty sea
+                if((column < (ocean.getDimension() - 1)) && (ocean.isOccupied(row, column + 1)))
+                {
+                    return false;
+                }
+
+                row++;
             }
         }
         
         return true;
     }
-
 
 
     /**
@@ -256,11 +243,9 @@ public abstract class Ship
         // check if it is a hit
         if(!ocean.isOccupied(row, column))
         {
-            setShortForm("X");
+            ((EmptySea)this).setMissHit();
             return false;
         }
-
-        System.out.println(row - getBowRow() + column - getBowColumn() + " from shootAt");
 
         // it's a hit. Work out offset & set that position in hit array to true
         hit[(row - getBowRow() + column - getBowColumn())] = true;
@@ -286,6 +271,16 @@ public abstract class Ship
         return true;
     }
 
+    public boolean isHitEmptySea()
+    {
+        if(this.type == "EmptySea")
+        {
+            return ((EmptySea)this).getMissHit();
+        }
+
+        return false;
+    }
+
     public boolean isAreaHit(int row, int column)
     {
         // we don't care about empty sea
@@ -293,8 +288,6 @@ public abstract class Ship
         {
             return false;
         }
-
-        System.out.println(row - getBowRow() + column - getBowColumn() + " from isAreaHit");
 
         return hit[(row - getBowRow() + column - getBowColumn())];
     }
