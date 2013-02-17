@@ -3,10 +3,6 @@ To ask Keith:
  ☐ Random Fleet needs more explanation, is it about randomly placing them in the ocean?
      Explanation in the code comments
 
- ☐ If a shot is fired where it was either a miss or hit before, what should happen? Should the shot count be increased?
-     Let them shoot as many times as they want
-     Be careful not to count a ship as sinking twice
-
  ☐ A sample on unit testing and how folder should be organized
      There should be a folder called test at the same level as bin and src, the tests should belong to the battleship package
      One new file per interface tested
@@ -19,7 +15,6 @@ To ask Keith:
  To code:
 
  ☐ Set the message when a ship is sunk
- ☐ Set the short form for the miss and hit
 
 
 The UML:
