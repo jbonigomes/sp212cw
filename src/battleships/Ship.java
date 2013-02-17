@@ -41,8 +41,6 @@ public abstract class Ship
     /**
      * An array of boolean which indicates whether that part of the ship has been hit.
      * This is initialised by the appropriate sub-class.
-     * Battleships use all 4 locations; cruisers use the first 3; destroyers 2;
-     * submarines 1; and "empty sea" 1.
      */
     protected boolean[] hit;
 
@@ -56,10 +54,12 @@ public abstract class Ship
         this.type = type;
         this.shortForm = shortForm;
         this.notYetSunk = true;
-        hit = new boolean[size];
-        for (int i = 0; i < hit.length; i++)
+
+        this.hit = new boolean[size];
+        
+        for (int i = 0; i < this.hit.length; i++)
         {
-            hit[i] = false;
+            this.hit[i] = false;
         }
     }
 
@@ -115,6 +115,34 @@ public abstract class Ship
         {
             return false;
         }
+
+        /*
+
+        // check if numbers are within range
+        if(withinRange(row, column, horizontal, oceanDimension))
+        {
+            if(isTopLeft()) return checkTopLeft();
+
+            if(isTopRight()) return checkTopRight();
+
+            if(isTop()) return checkTop();
+
+            if(isBottomLeft()) return checkBottomLeft();
+
+            if(isBottomRight()) return checkBottomRight();
+
+            if(isBottom()) return checkBottom();
+
+            if(isLeft()) return checkLeft();
+
+            if(isRight()) return checkRight();
+
+            return fullCheck();
+        }
+
+        return false
+
+        */
 
         // check if it is horizontal
         if(horizontal)
