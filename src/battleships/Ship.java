@@ -92,6 +92,248 @@ public abstract class Ship
         return false;
     }
 
+    public boolean isTopLeft(int row, int column)
+    {
+        return (row == 0) && (column == 0);
+    }
+
+    public boolean isTopRight(int row, int column, boolean horizontal, int oceanDimension)
+    {
+        if(horizontal)
+        {
+            return (row == 0) && ((column + (getSize() - 1)) == (oceanDimension - 1));
+        }
+
+        return (row == 0) && (column == (oceanDimension - 1));
+    }
+
+    public boolean isTop(int row)
+    {
+        return row == 0;
+    }
+
+    public boolean isBottomLeft(int row, int column, boolean horizontal, int oceanDimension)
+    {
+        if(horizontal)
+        {
+            return (column == 0) && (row == (oceanDimension - 1));
+        }
+
+        return (column == 0) && ((row + (getSize() - 1)) == (oceanDimension - 1));
+    }
+
+    public boolean isBottomRight(int row, int column, boolean horizontal, int oceanDimension)
+    {
+        if(horizontal)
+        {
+            return ((column + (getSize() - 1)) == (oceanDimension - 1)) && (row == (oceanDimension - 1));
+        }
+
+        return (column == (oceanDimension - 1)) && ((row + (getSize() - 1)) == (oceanDimension - 1));
+    }
+
+    public boolean isBottom(int row, boolean horizontal, int oceanDimension)
+    {
+        if(horizontal)
+        {
+            return row == (oceanDimension - 1);
+        }
+
+        return (row + (getSize() - 1)) == (oceanDimension - 1);
+    }
+
+    public boolean isLeft(int column)
+    {
+        return column == 0;
+    }
+
+    public boolean isRight(int column, boolean horizontal, int oceanDimension)
+    {
+        if(horizontal)
+        {
+            return (column + (getSize() - 1)) == (oceanDimension - 1);
+        }
+
+        return column == (oceanDimension - 1);
+    }
+
+    public boolean fullLoop(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            column--;
+        }
+        else
+        {
+            row--;
+        }
+
+        for(int i = 0; i <= (getSize() + 1); i++)
+        {
+            // check if current cell is emptysea
+            if(ocean.isOccupied(row, column))
+            {
+                return false;
+            }
+
+            if(horizontal)
+            {
+                column++;
+            }
+            else
+            {
+                row++;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean beforeOffsetLoop(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            column--;
+        }
+        else
+        {
+            row--;
+        }
+
+        for(int i = 0; i <= getSize(); i++)
+        {
+            // check if current cell is emptysea
+            if(ocean.isOccupied(row, column))
+            {
+                return false;
+            }
+
+            if(horizontal)
+            {
+                column++;
+            }
+            else
+            {
+                row++;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean afterOffsetLoop(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        for(int i = 0; i <= getSize(); i++)
+        {
+            // check if current cell is emptysea
+            if(ocean.isOccupied(row, column))
+            {
+                return false;
+            }
+
+            if(horizontal)
+            {
+                column++;
+            }
+            else
+            {
+                row++;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean fullCheck(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return fullLoop(row, column, horizontal, ocean) && fullLoop(row + 1, column, horizontal, ocean) && fullLoop(row - 1, column, horizontal, ocean);
+        }
+
+        return fullLoop(row, column, horizontal, ocean) && fullLoop(row, column + 1, horizontal, ocean) && fullLoop(row, column - 1, horizontal, ocean);
+    }
+
+    public boolean checkTopLeft(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row + 1, column, horizontal, ocean);
+        }
+
+        return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row, column + 1, horizontal, ocean);
+    }
+
+    public boolean checkTopRight(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row + 1, column, horizontal, ocean);
+        }
+
+        return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row, column - 1, horizontal, ocean);
+    }
+
+    public boolean checkTop(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return fullLoop(row, column, horizontal, ocean) && fullLoop(row + 1, column, horizontal, ocean);
+        }
+
+        return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row, column + 1, horizontal, ocean) && afterOffsetLoop(row, column - 1, horizontal, ocean);
+    }
+
+    public boolean checkBottomLeft(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row - 1, column, horizontal, ocean);
+        }
+
+        return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row, column + 1, horizontal, ocean);
+    }
+
+    public boolean checkBottomRight(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row - 1, column, horizontal, ocean);
+        }
+
+        return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row, column - 1, horizontal, ocean);
+    }
+
+    public boolean checkBottom(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return fullLoop(row, column, horizontal, ocean) && fullLoop(row - 1, column, horizontal, ocean);
+        }
+
+        return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row, column + 1, horizontal, ocean) && beforeOffsetLoop(row, column - 1, horizontal, ocean);
+    }
+
+    public boolean checkLeft(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row + 1, column, horizontal, ocean) && afterOffsetLoop(row - 1, column, horizontal, ocean);
+        }
+
+        return fullLoop(row, column, horizontal, ocean) && fullLoop(row, column + 1, horizontal, ocean);
+    }
+
+    public boolean checkRight(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row + 1, column, horizontal, ocean) && beforeOffsetLoop(row - 1, column, horizontal, ocean);
+        }
+
+        return fullLoop(row, column, horizontal, ocean) && fullLoop(row, column - 1, horizontal, ocean);
+    }
+
     /**
      * Checks that ship of this size will not overlap another ship, or touch
      * another ship (vertically, horizontally, or diagonally) and that ship will
@@ -111,117 +353,28 @@ public abstract class Ship
         int oceanDimension = ocean.getDimension();
 
         // check if numbers are within range
-        if(!(withinRange(row, column, horizontal, oceanDimension)))
-        {
-            return false;
-        }
-
-        /*
-
-        // check if numbers are within range
         if(withinRange(row, column, horizontal, oceanDimension))
         {
-            if(isTopLeft()) return checkTopLeft();
+            if(isTopLeft(row, column)) return checkTopLeft(row, column, horizontal, ocean);
 
-            if(isTopRight()) return checkTopRight();
+            if(isTopRight(row, column, horizontal, oceanDimension)) return checkTopRight(row, column, horizontal, ocean);
 
-            if(isTop()) return checkTop();
+            if(isTop(row)) return checkTop(row, column, horizontal, ocean);
 
-            if(isBottomLeft()) return checkBottomLeft();
+            if(isBottomLeft(row, column, horizontal, oceanDimension)) return checkBottomLeft(row, column, horizontal, ocean);
 
-            if(isBottomRight()) return checkBottomRight();
+            if(isBottomRight(row, column, horizontal, oceanDimension)) return checkBottomRight(row, column, horizontal, ocean);
 
-            if(isBottom()) return checkBottom();
+            if(isBottom(row, horizontal, oceanDimension)) return checkBottom(row, column, horizontal, ocean);
 
-            if(isLeft()) return checkLeft();
+            if(isLeft(column)) return checkLeft(row, column, horizontal, ocean);
 
-            if(isRight()) return checkRight();
+            if(isRight(column, horizontal, oceanDimension)) return checkRight(row, column, horizontal, ocean);
 
-            return fullCheck();
+            return fullCheck(row, column, horizontal, ocean);
         }
 
-        return false
-
-        */
-
-        // check if it is horizontal
-        if(horizontal)
-        {
-            // check if left side is empty sea, if not, return false
-            if((column > 0) && (ocean.isOccupied(row, column - 1)))
-            {
-                return false;
-            }
-
-            // check if right side is empty sea
-            if(((column + getSize()) < ocean.getDimension()) && (!(ships[row][column + getSize()] instanceof EmptySea)))
-            {
-                return false;
-            }
-
-            for(int i = 0; i < getSize(); i++)
-            {
-                // check if current cell is emptysea
-                if(ocean.isOccupied(row, column))
-                {
-                    return false;
-                }
-
-                // check if top cell is empty sea
-                if((row > 0) && (ocean.isOccupied(row - 1, column)))
-                {
-                    return false;
-                }
-
-                // check if bottom cell is empty sea
-                if((row < (ocean.getDimension() - 1)) && (ocean.isOccupied(row + 1, column)))
-                {
-                    return false;
-                }
-
-                column++;
-            }
-        
-        }
-        else // must be vertical
-        {
-            // check if top side is empty sea
-            if((row > 0) && (ocean.isOccupied(row - 1, column)))
-            {
-                return false;
-            }
-
-            // check if bottom side is empty sea
-            if(((row + getSize()) < ocean.getDimension()) && (ocean.isOccupied(row + getSize(), column)))
-            {
-                return false;
-            }
-
-            for(int i = 0; i < getSize(); i++)
-            {
-                // check if current cell is empty sea
-                if(ocean.isOccupied(row, column))
-                {
-                    return false;
-                }
-
-                // check if left cell is empty sea
-                if((column > 0) && (ocean.isOccupied(row, column - 1)))
-                {
-                    return false;
-                }
-                
-                // check if right cell is empty sea
-                if((column < (ocean.getDimension() - 1)) && (ocean.isOccupied(row, column + 1)))
-                {
-                    return false;
-                }
-
-                row++;
-            }
-        }
-        
-        return true;
+        return false;
     }
 
 
