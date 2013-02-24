@@ -11,11 +11,29 @@ To ask Keith:
      The prefered annotation is @Test
      when testing ocean we need to instanciate oc first and test the construction (does it consist of 10x10 with all cells being ship?)
 
-
  To code:
 
  ☐ Set the message when a ship is sunk
 
+Tests to write:
+
+ ☐ shipTest
+   ☐ okToPlaceShipAt
+   ☐ shootAt
+   ☐ isSunk
+       ☐ emptySeaTest
+         ☐ getMissHit
+         ☐ setMissHit
+
+ ☐ oceanTest
+   ☐ placeAllShipsRandomly
+   ☐ isOccupied
+   ☐ shootAt
+   ☐ getShotsFired
+   ☐ getHitCount
+   ☐ getShipSunk
+   ☐ isGameOver
+   ☐ getShipArray
 
 The UML:
 

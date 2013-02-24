@@ -21,16 +21,20 @@ public class Ocean
     // upper bound of the (square) board
     private static final int UPPER;
 
+    // array containing all ships for the game
     private final Ship[][] board;
 
+    // the number of shots fired in the game
     @Getter
     @Setter
     private int shotsFired;
 
+    // the number of hits achieved
     @Getter
     @Setter(AccessLevel.PRIVATE)
     private int hitCount;
 
+    // the number of ships sunk in the game
     @Getter
     @Setter(AccessLevel.PRIVATE)
     private int shipsSunk;
@@ -76,10 +80,6 @@ public class Ocean
     public void placeAllShipsRandomly()
     {
         Ship[] fleet = new Ship[UPPER];
-        
-        // this can be done programatically the rule is you have to have at least one of each type as well as a min/max of ten
-        // it helps to place big ships first
-        // hard coding is ok though
 
         fleet[0] = new BattleShip();
         fleet[1] = new Cruiser();
@@ -180,11 +180,17 @@ public class Ocean
         return !(board[row][column] instanceof EmptySea);
     }
 
+    /**
+     *
+     */
     public boolean isSunk(int row, int column)
     {
         return board[row][column].isSunk();
     }
 
+    /**
+     *
+     */
     public String getShipType(int row, int column)
     {
         return board[row][column].getType();
@@ -202,20 +208,19 @@ public class Ocean
     public boolean shootAt(int row, int column)
     {
         // increment the number of shots fired regardless of result
-        // use of accessor so that internal representation can change without effecting usage
         setShotsFired(getShotsFired() + 1);
 
         // check for a ship and ensure ship does not get sunk more than once
         if(board[row][column].shootAt(row, column, this) && board[row][column].getNotYetSunk())
         {
-            // okay - this is a ship
-            // get the ship;
             setHitCount(getHitCount() + 1);
 
-            // check if ship is sunk
+            // check if ship is sunk after this shot
             if(board[row][column].isSunk())
             {
+                // ensure this will not be sank again
                 board[row][column].setNotYetSunk(false);
+                // increase the count of ships sunk
                 setShipsSunk(getShipsSunk() + 1);
             }
 
@@ -230,7 +235,6 @@ public class Ocean
      *
      * @return the "fleet" has been sunk
      */
-
     public boolean isGameOver()
     {
         // check whether all board in fleet have been sunk

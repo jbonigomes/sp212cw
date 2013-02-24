@@ -2,6 +2,7 @@
  * Class Ship describes characteristics common to all the ships.
  *
  */
+
 package battleships;
 
 import lombok.AccessLevel;
@@ -15,39 +16,41 @@ import lombok.Setter;
 
 public abstract class Ship
 {
-    // TODO add appropriate comments
+    // Ship size, how many spaces it takes in the ocean
     @Getter
     private int size;
 
+    // Ship type
     @Getter
     private String type;
+
+    // Ship shortForm
     private String shortForm;
 
-    // TODO add appropriate comments
+    // The row in the ocean where this ship starts
     @Getter
     @Setter(AccessLevel.PACKAGE)
     private int bowRow;
     
+    // The column in the ocean where this ship starts
     @Getter
     @Setter(AccessLevel.PACKAGE)
     private int bowColumn;
     
+    // True if this ship is horizontal, false otherwise
     @Getter
     @Setter(AccessLevel.PACKAGE)
     private boolean horizontal;
     
+    // True if this ship has not yet been sunk, false otherwise
     @Setter(AccessLevel.PACKAGE)
     private boolean notYetSunk;
 
-    /**
-     * An array of boolean which indicates whether that part of the ship has been hit.
-     * This is initialised by the appropriate sub-class.
-     */
+    // An array of boolean which indicates whether that part of the ship has been hit. This is initialised by the appropriate sub-class.
     protected boolean[] hit;
 
     /**
-     * clears the hit array indicating whether that part of the "Ship" has been
-     * hit
+     * clears the hit array indicating whether that part of the "Ship" has been hit
      */
     protected Ship(int size, String type, String shortForm)
     {
@@ -65,118 +68,135 @@ public abstract class Ship
     }
 
     /**
-     * This method is here because it would not compile the lombok @Getter
+     * Set the shortForm to be returned by the toString method
+     *
+     * @param shortForm supplied in the if statement on ocean's print method
+     */
+    public void setShortForm(String shortForm)
+    {
+        this.shortForm = shortForm;
+    }
+
+    /**
+     * @return a single character String to use in Ocean's print method
+     */
+    @Override
+    public String toString()
+    {   
+        return shortForm;
+    }
+
+    /**
+     * This method is here because it would not compile with the lombok @Getter
+     * it's @Setter is done via a lombok annotation
+     *
+     * @return true if the ship has already been sunk in a previous shot, false otherwise
      */
     public boolean getNotYetSunk()
     {
-        return this.notYetSunk;
+       return this.notYetSunk;
     }
 
-    
-    public boolean withinRange(int row, int column, boolean horizontal, int oceanDimension)
+    /**
+     * checks whether this ship is sunk - using the hit array
+     *
+     * @return true if every part of the ship has been hit, false otherwise.
+     */
+    public boolean isSunk()
     {
-        if(horizontal)
+        for(boolean b : hit)
         {
-            if(row >= 0 && row < oceanDimension && column >= 0 && (column + (getSize() - 1)) < oceanDimension)
+            if(!b)
             {
-                return true;
+                return false;
             }
         }
-        else
+
+        return true;
+    }
+
+    /**
+     * If this ship has been hit, marks that part of the ship as "hit"
+     *
+     * @param row    User's supplied row shot
+     * @param column User's supplied column shot
+     * @return true if ship is hit, false otherwise
+     */
+    public boolean shootAt(int row, int column, Ocean ocean)
+    {
+        // check if it is a hit
+        if(!ocean.isOccupied(row, column))
         {
-            if(column >= 0 && column < oceanDimension && row >= 0 && (row + (getSize() - 1)) < oceanDimension)
-            {
-                return true;
-            }
+            // we need a way to set the miss hit on EmptySet
+            ((EmptySea)this).setMissHit();
+            return false;
+        }
+
+        // it's a hit. Work out offset & set that position in hit array to true
+        hit[(row - getBowRow() + column - getBowColumn())] = true;
+
+        return true;
+    }
+
+    /**
+     * Used by the Ocean's print method, to know
+     * whether EmptySea has already been hit during the game
+     *
+     * @return true if type is EmptySea and has not had an attempted shot before, false otherwise
+     */
+    public boolean isHitEmptySea()
+    {
+        if(this.type == "EmptySea")
+        {
+            return ((EmptySea)this).getMissHit();
         }
 
         return false;
     }
 
-    public boolean isTopLeft(int row, int column)
+    /**
+     * Used by the Ocean's print method, to know
+     * whether a non-EmptySea block has been hit during the game
+     * The parameters are suplied by the if statement in the ocean
+     *
+     * @param row the row position of this shot in the ocean
+     * @param column the column position of this shot in the ocean
+     * @return true if non-EmptySea that has already been hit during the game, false otherwise
+     */
+    public boolean isAreaHit(int row, int column)
     {
-        return (row == 0) && (column == 0);
-    }
-
-    public boolean isTopRight(int row, int column, boolean horizontal, int oceanDimension)
-    {
-        if(horizontal)
+        // we don't care about empty sea
+        if(this.type == "EmptySea")
         {
-            return (row == 0) && ((column + (getSize() - 1)) == (oceanDimension - 1));
+            return false;
         }
 
-        return (row == 0) && (column == (oceanDimension - 1));
+        return hit[(row - getBowRow() + column - getBowColumn())];
     }
 
-    public boolean isTop(int row)
+    /**
+     * "places" the ship in the ocean, assigning values to the bowRow, bowColumn, and
+     * horizontal.
+     * Places a reference to the ship in the ships array in the Ocean object.
+     *
+     * @param row        to contain the bow
+     * @param column     to contain the bow
+     * @param horizontal
+     * @param ocean
+     */
+    public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean)
     {
-        return row == 0;
-    }
+        this.setBowRow(row);
+        this.setBowColumn(column);
+        this.setHorizontal(horizontal);
 
-    public boolean isBottomLeft(int row, int column, boolean horizontal, int oceanDimension)
-    {
-        if(horizontal)
+        Ship ships[][] = ocean.getShipArray();
+
+        for(int i = 0; i < getSize(); i++)
         {
-            return (column == 0) && (row == (oceanDimension - 1));
-        }
-
-        return (column == 0) && ((row + (getSize() - 1)) == (oceanDimension - 1));
-    }
-
-    public boolean isBottomRight(int row, int column, boolean horizontal, int oceanDimension)
-    {
-        if(horizontal)
-        {
-            return ((column + (getSize() - 1)) == (oceanDimension - 1)) && (row == (oceanDimension - 1));
-        }
-
-        return (column == (oceanDimension - 1)) && ((row + (getSize() - 1)) == (oceanDimension - 1));
-    }
-
-    public boolean isBottom(int row, boolean horizontal, int oceanDimension)
-    {
-        if(horizontal)
-        {
-            return row == (oceanDimension - 1);
-        }
-
-        return (row + (getSize() - 1)) == (oceanDimension - 1);
-    }
-
-    public boolean isLeft(int column)
-    {
-        return column == 0;
-    }
-
-    public boolean isRight(int column, boolean horizontal, int oceanDimension)
-    {
-        if(horizontal)
-        {
-            return (column + (getSize() - 1)) == (oceanDimension - 1);
-        }
-
-        return column == (oceanDimension - 1);
-    }
-
-    public boolean fullLoop(int row, int column, boolean horizontal, Ocean ocean)
-    {
-        if(horizontal)
-        {
-            column--;
-        }
-        else
-        {
-            row--;
-        }
-
-        for(int i = 0; i <= (getSize() + 1); i++)
-        {
-            // check if current cell is emptysea
-            if(ocean.isOccupied(row, column))
-            {
-                return false;
-            }
-
+            // set position in array to contain the ship
+            ships[row][column] = this;
+            
             if(horizontal)
             {
                 column++;
@@ -186,153 +206,6 @@ public abstract class Ship
                 row++;
             }
         }
-
-        return true;
-    }
-
-    public boolean beforeOffsetLoop(int row, int column, boolean horizontal, Ocean ocean)
-    {
-        if(horizontal)
-        {
-            column--;
-        }
-        else
-        {
-            row--;
-        }
-
-        for(int i = 0; i <= getSize(); i++)
-        {
-            // check if current cell is emptysea
-            if(ocean.isOccupied(row, column))
-            {
-                return false;
-            }
-
-            if(horizontal)
-            {
-                column++;
-            }
-            else
-            {
-                row++;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean afterOffsetLoop(int row, int column, boolean horizontal, Ocean ocean)
-    {
-        for(int i = 0; i <= getSize(); i++)
-        {
-            // check if current cell is emptysea
-            if(ocean.isOccupied(row, column))
-            {
-                return false;
-            }
-
-            if(horizontal)
-            {
-                column++;
-            }
-            else
-            {
-                row++;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean fullCheck(int row, int column, boolean horizontal, Ocean ocean)
-    {
-        if(horizontal)
-        {
-            return fullLoop(row, column, horizontal, ocean) && fullLoop(row + 1, column, horizontal, ocean) && fullLoop(row - 1, column, horizontal, ocean);
-        }
-
-        return fullLoop(row, column, horizontal, ocean) && fullLoop(row, column + 1, horizontal, ocean) && fullLoop(row, column - 1, horizontal, ocean);
-    }
-
-    public boolean checkTopLeft(int row, int column, boolean horizontal, Ocean ocean)
-    {
-        if(horizontal)
-        {
-            return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row + 1, column, horizontal, ocean);
-        }
-
-        return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row, column + 1, horizontal, ocean);
-    }
-
-    public boolean checkTopRight(int row, int column, boolean horizontal, Ocean ocean)
-    {
-        if(horizontal)
-        {
-            return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row + 1, column, horizontal, ocean);
-        }
-
-        return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row, column - 1, horizontal, ocean);
-    }
-
-    public boolean checkTop(int row, int column, boolean horizontal, Ocean ocean)
-    {
-        if(horizontal)
-        {
-            return fullLoop(row, column, horizontal, ocean) && fullLoop(row + 1, column, horizontal, ocean);
-        }
-
-        return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row, column + 1, horizontal, ocean) && afterOffsetLoop(row, column - 1, horizontal, ocean);
-    }
-
-    public boolean checkBottomLeft(int row, int column, boolean horizontal, Ocean ocean)
-    {
-        if(horizontal)
-        {
-            return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row - 1, column, horizontal, ocean);
-        }
-
-        return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row, column + 1, horizontal, ocean);
-    }
-
-    public boolean checkBottomRight(int row, int column, boolean horizontal, Ocean ocean)
-    {
-        if(horizontal)
-        {
-            return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row - 1, column, horizontal, ocean);
-        }
-
-        return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row, column - 1, horizontal, ocean);
-    }
-
-    public boolean checkBottom(int row, int column, boolean horizontal, Ocean ocean)
-    {
-        if(horizontal)
-        {
-            return fullLoop(row, column, horizontal, ocean) && fullLoop(row - 1, column, horizontal, ocean);
-        }
-
-        return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row, column + 1, horizontal, ocean) && beforeOffsetLoop(row, column - 1, horizontal, ocean);
-    }
-
-    public boolean checkLeft(int row, int column, boolean horizontal, Ocean ocean)
-    {
-        if(horizontal)
-        {
-            return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row + 1, column, horizontal, ocean) && afterOffsetLoop(row - 1, column, horizontal, ocean);
-        }
-
-        return fullLoop(row, column, horizontal, ocean) && fullLoop(row, column + 1, horizontal, ocean);
-    }
-
-    public boolean checkRight(int row, int column, boolean horizontal, Ocean ocean)
-    {
-        if(horizontal)
-        {
-            return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row + 1, column, horizontal, ocean) && beforeOffsetLoop(row - 1, column, horizontal, ocean);
-        }
-
-        return fullLoop(row, column, horizontal, ocean) && fullLoop(row, column - 1, horizontal, ocean);
     }
 
     /**
@@ -377,31 +250,113 @@ public abstract class Ship
 
         return false;
     }
+    
+    /* From this point onwards, all methods are helper methods of the okToPlaceShipAt method */
 
-
-    /**
-     * "places" the ship in the ocean, assigning values to the bowRow, bowColumn, and
-     * horizontal.
-     * Places a reference to the ship in the ships array in the Ocean object.
-     *
-     * @param row        to contain the bow
-     * @param column     to contain the bow
-     * @param horizontal
-     * @param ocean
-     */
-    public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean)
+    private boolean withinRange(int row, int column, boolean horizontal, int oceanDimension)
     {
-        this.setBowRow(row);
-        this.setBowColumn(column);
-        this.setHorizontal(horizontal);
-
-        Ship ships[][] = ocean.getShipArray();
-
-        for(int i = 0; i < getSize(); i++)
+        if(horizontal)
         {
-            // set position in array to contain the ship
-            ships[row][column] = this;
-            
+            if(row >= 0 && row < oceanDimension && column >= 0 && (column + (getSize() - 1)) < oceanDimension)
+            {
+                return true;
+            }
+        }
+        else
+        {
+            if(column >= 0 && column < oceanDimension && row >= 0 && (row + (getSize() - 1)) < oceanDimension)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isTopLeft(int row, int column)
+    {
+        return (row == 0) && (column == 0);
+    }
+
+    private boolean isTopRight(int row, int column, boolean horizontal, int oceanDimension)
+    {
+        if(horizontal)
+        {
+            return (row == 0) && ((column + (getSize() - 1)) == (oceanDimension - 1));
+        }
+
+        return (row == 0) && (column == (oceanDimension - 1));
+    }
+
+    private boolean isTop(int row)
+    {
+        return row == 0;
+    }
+
+    private boolean isBottomLeft(int row, int column, boolean horizontal, int oceanDimension)
+    {
+        if(horizontal)
+        {
+            return (column == 0) && (row == (oceanDimension - 1));
+        }
+
+        return (column == 0) && ((row + (getSize() - 1)) == (oceanDimension - 1));
+    }
+
+    private boolean isBottomRight(int row, int column, boolean horizontal, int oceanDimension)
+    {
+        if(horizontal)
+        {
+            return ((column + (getSize() - 1)) == (oceanDimension - 1)) && (row == (oceanDimension - 1));
+        }
+
+        return (column == (oceanDimension - 1)) && ((row + (getSize() - 1)) == (oceanDimension - 1));
+    }
+
+    private boolean isBottom(int row, boolean horizontal, int oceanDimension)
+    {
+        if(horizontal)
+        {
+            return row == (oceanDimension - 1);
+        }
+
+        return (row + (getSize() - 1)) == (oceanDimension - 1);
+    }
+
+    private boolean isLeft(int column)
+    {
+        return column == 0;
+    }
+
+    private boolean isRight(int column, boolean horizontal, int oceanDimension)
+    {
+        if(horizontal)
+        {
+            return (column + (getSize() - 1)) == (oceanDimension - 1);
+        }
+
+        return column == (oceanDimension - 1);
+    }
+
+    private boolean fullLoop(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            column--;
+        }
+        else
+        {
+            row--;
+        }
+
+        for(int i = 0; i <= (getSize() + 1); i++)
+        {
+            // check if current cell is emptysea
+            if(ocean.isOccupied(row, column))
+            {
+                return false;
+            }
+
             if(horizontal)
             {
                 column++;
@@ -411,80 +366,152 @@ public abstract class Ship
                 row++;
             }
         }
-    }
-
-    /**
-     * If this ship has been hit, marks that part of the ship as "hit"
-     *
-     * @param row    User's supplied row shot
-     * @param column User's supplied column shot
-     * @return true if ship is hit, false otherwise
-     */
-    public boolean shootAt(int row, int column, Ocean ocean)
-    {
-        // check if it is a hit
-        if(!ocean.isOccupied(row, column))
-        {
-            ((EmptySea)this).setMissHit();
-            return false;
-        }
-
-        // it's a hit. Work out offset & set that position in hit array to true
-        hit[(row - getBowRow() + column - getBowColumn())] = true;
 
         return true;
     }
 
-    /**
-     * checks whether this ship is sunk - using the hit array
-     *
-     * @return true if every part of the ship has been hit, false otherwise.
-     */
-    public boolean isSunk()
+    private boolean beforeOffsetLoop(int row, int column, boolean horizontal, Ocean ocean)
     {
-        for(boolean b : hit)
+        if(horizontal)
         {
-            if(!b)
+            column--;
+        }
+        else
+        {
+            row--;
+        }
+
+        for(int i = 0; i <= getSize(); i++)
+        {
+            // check if current cell is emptysea
+            if(ocean.isOccupied(row, column))
             {
                 return false;
+            }
+
+            if(horizontal)
+            {
+                column++;
+            }
+            else
+            {
+                row++;
             }
         }
 
         return true;
     }
 
-    public boolean isHitEmptySea()
+    private boolean afterOffsetLoop(int row, int column, boolean horizontal, Ocean ocean)
     {
-        if(this.type == "EmptySea")
+        for(int i = 0; i <= getSize(); i++)
         {
-            return ((EmptySea)this).getMissHit();
+            // check if current cell is emptysea
+            if(ocean.isOccupied(row, column))
+            {
+                return false;
+            }
+
+            if(horizontal)
+            {
+                column++;
+            }
+            else
+            {
+                row++;
+            }
         }
 
-        return false;
+        return true;
     }
 
-    public boolean isAreaHit(int row, int column)
+    private boolean fullCheck(int row, int column, boolean horizontal, Ocean ocean)
     {
-        // we don't care about empty sea
-        if(this.type == "EmptySea")
+        if(horizontal)
         {
-            return false;
+            return fullLoop(row, column, horizontal, ocean) && fullLoop(row + 1, column, horizontal, ocean) && fullLoop(row - 1, column, horizontal, ocean);
         }
 
-        return hit[(row - getBowRow() + column - getBowColumn())];
+        return fullLoop(row, column, horizontal, ocean) && fullLoop(row, column + 1, horizontal, ocean) && fullLoop(row, column - 1, horizontal, ocean);
     }
 
-    public void setShortForm(String shortForm)
+    private boolean checkTopLeft(int row, int column, boolean horizontal, Ocean ocean)
     {
-        this.shortForm = shortForm;
+        if(horizontal)
+        {
+            return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row + 1, column, horizontal, ocean);
+        }
+
+        return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row, column + 1, horizontal, ocean);
     }
 
-    /**
-     * @return a single character String to use in Ocean's print method
-     */
-    @Override
-    public String toString()
-    {   
-        return shortForm;
+    private boolean checkTopRight(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row + 1, column, horizontal, ocean);
+        }
+
+        return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row, column - 1, horizontal, ocean);
+    }
+
+    private boolean checkTop(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return fullLoop(row, column, horizontal, ocean) && fullLoop(row + 1, column, horizontal, ocean);
+        }
+
+        return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row, column + 1, horizontal, ocean) && afterOffsetLoop(row, column - 1, horizontal, ocean);
+    }
+
+    private boolean checkBottomLeft(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row - 1, column, horizontal, ocean);
+        }
+
+        return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row, column + 1, horizontal, ocean);
+    }
+
+    private boolean checkBottomRight(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row - 1, column, horizontal, ocean);
+        }
+
+        return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row, column - 1, horizontal, ocean);
+    }
+
+    private boolean checkBottom(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return fullLoop(row, column, horizontal, ocean) && fullLoop(row - 1, column, horizontal, ocean);
+        }
+
+        return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row, column + 1, horizontal, ocean) && beforeOffsetLoop(row, column - 1, horizontal, ocean);
+    }
+
+    private boolean checkLeft(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row + 1, column, horizontal, ocean) && afterOffsetLoop(row - 1, column, horizontal, ocean);
+        }
+
+        return fullLoop(row, column, horizontal, ocean) && fullLoop(row, column + 1, horizontal, ocean);
+    }
+
+    private boolean checkRight(int row, int column, boolean horizontal, Ocean ocean)
+    {
+        if(horizontal)
+        {
+            return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row + 1, column, horizontal, ocean) && beforeOffsetLoop(row - 1, column, horizontal, ocean);
+        }
+
+        return fullLoop(row, column, horizontal, ocean) && fullLoop(row, column - 1, horizontal, ocean);
     }
 }
