@@ -19,6 +19,7 @@ public abstract class Ship
     @Getter
     private int size;
 
+    @Getter
     private String type;
     private String shortForm;
 

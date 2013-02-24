@@ -108,6 +108,7 @@ public class Ocean
                 x = m.nextInt(UPPER); // x/row is random 0-9
                 y = m.nextInt(UPPER); // y/col is random 0-9
                 b = m.nextInt(2) == 1; // horizontal : 1 is true; 0 is false
+
             } while(!s.okToPlaceShipAt(x, y, b, this));
             
             // it is safe to place the ship
@@ -177,6 +178,16 @@ public class Ocean
     public boolean isOccupied(int row, int column)
     {
         return !(board[row][column] instanceof EmptySea);
+    }
+
+    public boolean isSunk(int row, int column)
+    {
+        return board[row][column].isSunk();
+    }
+
+    public String getShipType(int row, int column)
+    {
+        return board[row][column].getType();
     }
 
     /**
