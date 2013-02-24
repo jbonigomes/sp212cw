@@ -181,7 +181,11 @@ public class Ocean
     }
 
     /**
+     * Check if ship in row/column position is sunk
      *
+     * @param row the x position
+     * @param column the y position
+     * @return true if ship is sunk, false otherwise
      */
     public boolean isSunk(int row, int column)
     {
@@ -189,7 +193,11 @@ public class Ocean
     }
 
     /**
+     * Gets the ship type/name in the given ocean x/y position
      *
+     * @param row the x position
+     * @param column the y position
+     * @return the ship type/name
      */
     public String getShipType(int row, int column)
     {

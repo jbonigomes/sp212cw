@@ -7,16 +7,18 @@
 package battleships;
 
 /**
+ * @author KLM
  * @author Jose B. Gomes
  */
-public class Cruiser extends Ship {
-
+public class Cruiser extends Ship
+{
     private final static int SIZE = 3;
 
     /**
      * sets the length & clears the hit array
      */
-    public Cruiser() {
+    public Cruiser()
+    {
         super(SIZE, "Cruiser", "C");
     }
 }

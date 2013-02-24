@@ -63,7 +63,7 @@ public class BattleshipGame
                 }
                 else
                 {
-                    System.out.println("A miss, try again.");
+                    System.out.println("A miss, try again!");
                 }
 
                 System.out.println();

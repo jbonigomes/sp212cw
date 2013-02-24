@@ -251,8 +251,20 @@ public abstract class Ship
         return false;
     }
     
-    /* From this point onwards, all methods are helper methods of the okToPlaceShipAt method */
+    /*
+     * From this point onwards, all methods are helper methods of okToPlaceShipAt
+     */
 
+    /**
+     * Sanity check if row and column are within the correct range
+     * This method is fundamental to avoid ArrayOutOfBounds exceptions
+     * 
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param oceanDimension, the size of the ocean, could be the length or the height
+     * @return true if row/column are within range, false otherwise
+     */
     private boolean withinRange(int row, int column, boolean horizontal, int oceanDimension)
     {
         if(horizontal)
@@ -273,11 +285,27 @@ public abstract class Ship
         return false;
     }
 
+    /**
+     * Checks if this ship is to be placed at the top left corner of the ocean
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @return true if ship is located in the top left of the ocean, false otherwise
+     */
     private boolean isTopLeft(int row, int column)
     {
         return (row == 0) && (column == 0);
     }
 
+    /**
+     * Checks if this ship is to be placed at the top right corner of the ocean
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param oceanDimension, the size of the ocean, could be the length or the height
+     * @return true if ship is located in the top right of the ocean, false otherwise
+     */
     private boolean isTopRight(int row, int column, boolean horizontal, int oceanDimension)
     {
         if(horizontal)
@@ -288,11 +316,26 @@ public abstract class Ship
         return (row == 0) && (column == (oceanDimension - 1));
     }
 
+    /**
+     * Checks if this ship is to be placed at the top end of the ocean
+     *
+     * @param row, that will contain the bow
+     * @return true if ship is located in the top of the ocean, false otherwise
+     */
     private boolean isTop(int row)
     {
         return row == 0;
     }
 
+    /**
+     * Checks if this ship is to be placed at the bottom left corner of the ocean
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param oceanDimension, the size of the ocean, could be the length or the height
+     * @return true if ship is located in the bottom left of the ocean, false otherwise
+     */
     private boolean isBottomLeft(int row, int column, boolean horizontal, int oceanDimension)
     {
         if(horizontal)
@@ -303,6 +346,15 @@ public abstract class Ship
         return (column == 0) && ((row + (getSize() - 1)) == (oceanDimension - 1));
     }
 
+    /**
+     * Checks if this ship is to be placed at the bottom right corner of the ocean
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param oceanDimension, the size of the ocean, could be the length or the height
+     * @return true if ship is located in the bottom right of the ocean, false otherwise
+     */
     private boolean isBottomRight(int row, int column, boolean horizontal, int oceanDimension)
     {
         if(horizontal)
@@ -313,6 +365,14 @@ public abstract class Ship
         return (column == (oceanDimension - 1)) && ((row + (getSize() - 1)) == (oceanDimension - 1));
     }
 
+    /**
+     * Checks if this ship is to be placed at the bottom end of the ocean
+     *
+     * @param row, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param oceanDimension, the size of the ocean, could be the length or the height
+     * @return true if ship is located in the bottom of the ocean, false otherwise
+     */
     private boolean isBottom(int row, boolean horizontal, int oceanDimension)
     {
         if(horizontal)
@@ -323,11 +383,25 @@ public abstract class Ship
         return (row + (getSize() - 1)) == (oceanDimension - 1);
     }
 
+    /**
+     * Checks if this ship is to be placed at the left end of the ocean
+     *
+     * @param column, that will contain the bow
+     * @return true if ship is located in the left of the ocean, false otherwise
+     */
     private boolean isLeft(int column)
     {
         return column == 0;
     }
 
+    /**
+     * Checks if this ship is to be placed at the right end of the ocean
+     *
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param oceanDimension, the size of the ocean, could be the length or the height
+     * @return true if ship is located in the right of the ocean, false otherwise
+     */
     private boolean isRight(int column, boolean horizontal, int oceanDimension)
     {
         if(horizontal)
@@ -338,6 +412,17 @@ public abstract class Ship
         return column == (oceanDimension - 1);
     }
 
+    /**
+     * Checks if all cells of the ocean where this ship is meant to be place are empty
+     * Also checks if the cell right before it and right after it are also empty
+     * May be called more than once to check if row/column before or after it are also empty
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param ocean, the ocean
+     * @return true if all positions are empty sea, false otherwise
+     */
     private boolean fullLoop(int row, int column, boolean horizontal, Ocean ocean)
     {
         if(horizontal)
@@ -370,6 +455,17 @@ public abstract class Ship
         return true;
     }
 
+    /**
+     * Checks if all cells of the ocean where this ship is meant to be place are empty
+     * Also checks if the cell right before it is also empty
+     * May be called more than once to check if row/column before or after it are also empty
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param ocean, the ocean
+     * @return true if all positions are empty sea, false otherwise
+     */
     private boolean beforeOffsetLoop(int row, int column, boolean horizontal, Ocean ocean)
     {
         if(horizontal)
@@ -402,6 +498,17 @@ public abstract class Ship
         return true;
     }
 
+    /**
+     * Checks if all cells of the ocean where this ship is meant to be place are empty
+     * Also checks if the cell right after it is also empty
+     * May be called more than once to check if row/column before or after it are also empty
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param ocean, the ocean
+     * @return true if all positions are empty sea, false otherwise
+     */
     private boolean afterOffsetLoop(int row, int column, boolean horizontal, Ocean ocean)
     {
         for(int i = 0; i <= getSize(); i++)
@@ -425,6 +532,16 @@ public abstract class Ship
         return true;
     }
 
+    /**
+     * Checks if all positions in the ocean where this ships is to be placed are empty sea
+     * Also checks if all adjacent positions to this ship are empty sea
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param ocean, the ocean
+     * @return true if all postions are empty sea, false otherwise
+     */
     private boolean fullCheck(int row, int column, boolean horizontal, Ocean ocean)
     {
         if(horizontal)
@@ -435,6 +552,17 @@ public abstract class Ship
         return fullLoop(row, column, horizontal, ocean) && fullLoop(row, column + 1, horizontal, ocean) && fullLoop(row, column - 1, horizontal, ocean);
     }
 
+    /**
+     * Checks if all positions in the ocean where this ships is to be placed are empty sea
+     * Also checks if all adjacent positions to this ship are empty sea
+     * It ignores any ocean cells to the top and left sides of this ship
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param ocean, the ocean
+     * @return true if all postions are empty sea, false otherwise
+     */
     private boolean checkTopLeft(int row, int column, boolean horizontal, Ocean ocean)
     {
         if(horizontal)
@@ -445,6 +573,17 @@ public abstract class Ship
         return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row, column + 1, horizontal, ocean);
     }
 
+    /**
+     * Checks if all positions in the ocean where this ships is to be placed are empty sea
+     * Also checks if all adjacent positions to this ship are empty sea
+     * It ignores any ocean cells to the top and right sides of this ship
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param ocean, the ocean
+     * @return true if all postions are empty sea, false otherwise
+     */
     private boolean checkTopRight(int row, int column, boolean horizontal, Ocean ocean)
     {
         if(horizontal)
@@ -455,6 +594,17 @@ public abstract class Ship
         return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row, column - 1, horizontal, ocean);
     }
 
+    /**
+     * Checks if all positions in the ocean where this ships is to be placed are empty sea
+     * Also checks if all adjacent positions to this ship are empty sea
+     * It ignores any ocean cells to the top side of this ship
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param ocean, the ocean
+     * @return true if all postions are empty sea, false otherwise
+     */
     private boolean checkTop(int row, int column, boolean horizontal, Ocean ocean)
     {
         if(horizontal)
@@ -465,6 +615,17 @@ public abstract class Ship
         return afterOffsetLoop(row, column, horizontal, ocean) && afterOffsetLoop(row, column + 1, horizontal, ocean) && afterOffsetLoop(row, column - 1, horizontal, ocean);
     }
 
+    /**
+     * Checks if all positions in the ocean where this ships is to be placed are empty sea
+     * Also checks if all adjacent positions to this ship are empty sea
+     * It ignores any ocean cells to the bottom and left sides of this ship
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param ocean, the ocean
+     * @return true if all postions are empty sea, false otherwise
+     */
     private boolean checkBottomLeft(int row, int column, boolean horizontal, Ocean ocean)
     {
         if(horizontal)
@@ -475,6 +636,17 @@ public abstract class Ship
         return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row, column + 1, horizontal, ocean);
     }
 
+    /**
+     * Checks if all positions in the ocean where this ships is to be placed are empty sea
+     * Also checks if all adjacent positions to this ship are empty sea
+     * It ignores any ocean cells to the bottom and right sides of this ship
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param ocean, the ocean
+     * @return true if all postions are empty sea, false otherwise
+     */
     private boolean checkBottomRight(int row, int column, boolean horizontal, Ocean ocean)
     {
         if(horizontal)
@@ -485,6 +657,17 @@ public abstract class Ship
         return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row, column - 1, horizontal, ocean);
     }
 
+    /**
+     * Checks if all positions in the ocean where this ships is to be placed are empty sea
+     * Also checks if all adjacent positions to this ship are empty sea
+     * It ignores any ocean cells to the bottom side of this ship
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param ocean, the ocean
+     * @return true if all postions are empty sea, false otherwise
+     */
     private boolean checkBottom(int row, int column, boolean horizontal, Ocean ocean)
     {
         if(horizontal)
@@ -495,6 +678,17 @@ public abstract class Ship
         return beforeOffsetLoop(row, column, horizontal, ocean) && beforeOffsetLoop(row, column + 1, horizontal, ocean) && beforeOffsetLoop(row, column - 1, horizontal, ocean);
     }
 
+    /**
+     * Checks if all positions in the ocean where this ships is to be placed are empty sea
+     * Also checks if all adjacent positions to this ship are empty sea
+     * It ignores any ocean cells to the left side of this ship
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param ocean, the ocean
+     * @return true if all postions are empty sea, false otherwise
+     */
     private boolean checkLeft(int row, int column, boolean horizontal, Ocean ocean)
     {
         if(horizontal)
@@ -505,6 +699,17 @@ public abstract class Ship
         return fullLoop(row, column, horizontal, ocean) && fullLoop(row, column + 1, horizontal, ocean);
     }
 
+    /**
+     * Checks if all positions in the ocean where this ships is to be placed are empty sea
+     * Also checks if all adjacent positions to this ship are empty sea
+     * It ignores any ocean cells to the right side of this ship
+     *
+     * @param row, that will contain the bow
+     * @param column, that will contain the bow
+     * @param horizontal, if this ship is horizontal
+     * @param ocean, the ocean
+     * @return true if all postions are empty sea, false otherwise
+     */
     private boolean checkRight(int row, int column, boolean horizontal, Ocean ocean)
     {
         if(horizontal)

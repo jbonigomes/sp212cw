@@ -2,6 +2,7 @@
  * Class Position
  * 
  */
+
 package battleships;
 
 import lombok.AccessLevel;
@@ -11,10 +12,10 @@ import lombok.Setter;
 
 /**
  * @author MARGARET WRIGHT
- * @author keith
+ * @author KLM
+ * @author Jose B. Gomes
  */
 
-//@AllArgsConstructor
 public class Position
 {
     @Getter
