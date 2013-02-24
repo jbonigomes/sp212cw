@@ -38,7 +38,6 @@ public abstract class Ship
     private int bowColumn;
     
     // True if this ship is horizontal, false otherwise
-    @Getter
     @Setter(AccessLevel.PACKAGE)
     private boolean horizontal;
     

@@ -1,8 +1,5 @@
 To ask Keith:
 
- ☐ Random Fleet needs more explanation, is it about randomly placing them in the ocean?
-     Explanation in the code comments
-
  ☐ A sample on unit testing and how folder should be organized
      There should be a folder called test at the same level as bin and src, the tests should belong to the battleship package
      One new file per interface tested
@@ -11,22 +8,24 @@ To ask Keith:
      The prefered annotation is @Test
      when testing ocean we need to instanciate oc first and test the construction (does it consist of 10x10 with all cells being ship?)
 
- To code:
-
- ☐ Set the message when a ship is sunk
-
 Tests to write:
 
  ☐ shipTest
    ☐ okToPlaceShipAt
    ☐ shootAt
    ☐ isSunk
+   ☐ toString
+   ☐ isHitEmptySea
+   ☐ getSize
+   ☐ getType
+   ☐ getBowRow
+   ☐ getBowColumn
+   ☐ getNotYetSunk
+   ☐ isAreaHit
        ☐ emptySeaTest
          ☐ getMissHit
-         ☐ setMissHit
 
  ☐ oceanTest
-   ☐ placeAllShipsRandomly
    ☐ isOccupied
    ☐ shootAt
    ☐ getShotsFired
@@ -34,6 +33,11 @@ Tests to write:
    ☐ getShipSunk
    ☐ isGameOver
    ☐ getShipArray
+   ☐ toString
+   ☐ isSunk
+   ☐ getShipType
+   ☐ printFinalScores
+   ☐ getDimension
 
 The UML:
 
