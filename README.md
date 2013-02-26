@@ -13,6 +13,11 @@
 - [jUnit](http://junit.org/)
 - [Hamcrest.core](https://code.google.com/p/hamcrest/downloads/list)
 
+
+> This documentation assumes you have _**Java/javac**_ correctly installed in your environment <br>
+> Run the commands below from the root folder (sp212cw)
+
+
 ## Directory structure
 
 	sp212cw/
@@ -44,7 +49,3 @@
 ## Run Tests
 
 	java -classpath bin:junit.jar:hamcrest.jar org.junit.runner.JUnitCore battleships.OceanTest
-
-
-> This documentation assumes you have _**Java/javac**_ correctly installed in your environment <br>
-> Run the commands above from the root folder, from the directory structure above, it would be sp212cw
