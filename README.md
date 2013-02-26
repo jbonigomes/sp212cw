@@ -1,4 +1,5 @@
 # Battleships coursework
+
 ### Assessment for the Software and Programming II module at Birkbeck, University of London
 
 - Author: Jose B. Gomes
@@ -10,43 +11,40 @@
 
 - [Lombok](http://projectlombok.org/)
 - [jUnit](http://junit.org/)
+- [Hamcrest.core](https://code.google.com/p/hamcrest/downloads/list)
 
-## Directory structure assumed
+## Directory structure
 
-#### For playing only
-
-	Desktop/
+	sp212cw/
+		tests/
+			battleships/
+				*.java
 		bin/
 			battleships/
 				*.class
-		lombok.jar
-		jUnit.jar
-
-#### For compiling code only
-
-	Desktop/
-		bin/
 		src/
 			battleships/
 				*.java
 		lombok.jar
 		jUnit.jar
+		hamcrest.jar
 
-## How to play
+## Play
 
-Download the contents of the bin directory to your desktop, as per [above](#for-playing-only), cd to the root of the app folder and run:
+	java -classpath bin:lombok.jar battleships/BattleshipGame
 
-	java -classpath bin:lombok.jar:jUnit.jar battleships/BattleshipGame
-	java -classpath bin:/Users/jbonigomes/Desktop/lombok/lombok.jar battleships/BattleshipGame
+## Compile
 
-## How to compile
+	javac -d bin -sourcepath src -classpath bin:lombok.jar src/battleships/*.java
 
-Download the contents of the src directory to your desktop, as per [above](#for-compiling-code-only), cd to the root of the app folder and run:
+## Compile Tests
 
-	javac -d bin -sourcepath src -classpath bin:lombok.jar:jUnit.jar src/battleships/<fileName>.java
-	javac -d bin -sourcepath src -classpath bin:/Users/jbonigomes/Desktop/lombok/lombok.jar src/battleships/<fileName>.java
-	javac -d bin -sourcepath src -classpath bin:/Users/jbonigomes/Desktop/lombok/lombok.jar src/battleships/*.java
+	javac -d bin -sourcepath tests -classpath bin:junit.jar tests/battleships/*.java
 
-> The code above will automatically create the _**battleships**_ directory under _**bin**_ <br>
-> Once compiled, you may play the game as per instructions [above](#how-to-play) <br>
+## Run Tests
+
+	java -classpath bin:junit.jar:hamcrest.jar org.junit.runner.JUnitCore battleships.OceanTest
+
+
 > This documentation assumes you have _**Java/javac**_ correctly installed in your environment <br>
+> Run the commands above from the root folder, from the directory structure above, it would be sp212cw
