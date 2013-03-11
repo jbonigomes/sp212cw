@@ -13,10 +13,8 @@
 - [jUnit](http://junit.org/)
 - [Hamcrest.core](https://code.google.com/p/hamcrest/downloads/list)
 
-
 > This documentation assumes you have _**Java/javac**_ correctly installed in your environment <br>
 > Run the commands below from the root folder (sp212cw)
-
 
 ## Directory structure
 
