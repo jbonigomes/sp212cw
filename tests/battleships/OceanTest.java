@@ -24,6 +24,24 @@ public class OceanTest
 		}
     }
 
+    @After
+    public void tearDown() throws Exception
+    {
+        assertEquals(false, false);
+    }
+
+    @Test
+    public void testConstruction()
+    {
+        assertEquals(false, false);
+    }
+
+    @Test
+    public void placeAllShipsRandomly()
+    {
+        assertEquals(false, false);
+    }
+
     @Test
     public void testIsOccupied()
     {
@@ -33,6 +51,14 @@ public class OceanTest
     @Test
     public void shootAt()
     {
+        int x = 3;
+        int y = 4;
+        Ship[][] board = oc.getShipArray();
+        // setup ocean with Ship at x,y
+        board[x][y] = new SubmarineImpl();
+        // fire at x,y
+        /////////////////assertTrue(oc.shootAt(x,y));
+
     	assertEquals(false, false);
     }
 
@@ -45,19 +71,39 @@ public class OceanTest
     @Test
     public void getShipSunk()
     {
-    	assertEquals(false, false);
+    	//////////////////////assertEquals(0,oc.getShipsSunk());
+        assertEquals(false, false);
     }
 
     @Test
     public void isGameOver()
     {
+        // setup end of game
+        /////////////assertTrue(oc.isGameOver());
     	assertEquals(false, false);
+    }
+
+    @Test
+    public void testGameIsNotOver()
+    {
+        // setup nothing
+        /////////assertFalse(oc.isGameOver());
+        assertEquals(false, false);
     }
 
     @Test
     public void getShipArray()
     {
-    	assertEquals(false, false);
+        Ship[][] ship = oc.getShipArray();
+        for(Ship[] sarr: ship)
+        {
+            for(Ship s : sarr)
+            {
+                ////////assertTrue(s instanceof Ship);
+            }
+        }
+    	
+        assertEquals(false, false);
     }
 
     @Test
@@ -82,5 +128,25 @@ public class OceanTest
     public void getDimension()
     {
     	assertEquals(false, false);
+    }
+
+    @Test
+    public void testMissAt()
+    {
+        assertFalse(oc.shootAt(0,0));
+    }
+
+    @Test
+    public void testInitialGetHitCount() throws Exception
+    {
+        assertEquals(0, oc.getHitCount());
+    }
+
+    @Test
+    public void testLaterGetHitCount()
+    {
+        // setup scenario for four hits
+        // test for correct number of hits
+        assertEquals(4, oc.getHitCount());
     }
 }

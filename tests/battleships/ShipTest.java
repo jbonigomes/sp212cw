@@ -12,6 +12,12 @@ public class ShipTest
     }
 
     @Test
+    public void placeShipAt()
+    {
+        assertEquals(false, false);
+    }
+
+    @Test
     public void shootAt()
     {
     	assertEquals(false, false);
@@ -63,5 +69,29 @@ public class ShipTest
     public void isAreaHit()
     {
     	assertEquals(false, false);
+    }
+
+    @Test
+    public void isHorizontal()
+    {
+        assertEquals(false, false);
+    }
+
+    @Test
+    public void setHorizontal()
+    {
+        assertEquals(false, false);
+    }
+
+    @Test
+    public void setBowRow()
+    {
+        assertEquals(false, false);
+    }
+
+    @Test
+    public void setBowColumn()
+    {
+        assertEquals(false, false);
     }
 }
