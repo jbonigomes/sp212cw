@@ -55,7 +55,7 @@ public class OceanTest
         int y = 4;
         Ship[][] board = oc.getShipArray();
         // setup ocean with Ship at x,y
-        board[x][y] = new SubmarineImpl();
+        board[x][y] = new Submarine();
         // fire at x,y
         /////////////////assertTrue(oc.shootAt(x,y));
 

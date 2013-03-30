@@ -1,4 +1,4 @@
-package batteships;
+package battleships;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -25,14 +25,14 @@ public class EmptySeaTest
     @Test
     public void testConstructor()
     {
-        assertEquals(1, es.getLength());
+        assertEquals(1, es.getSize());
     }
 
     @Test
     public void testShootAt()
     {
-        assertFalse(es.shootAt(0, 0));
-        assertFalse(es.shootAt(5, 5));
+        assertFalse(es.shootAt(0, 0, oc));
+        assertFalse(es.shootAt(5, 5, oc));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class EmptySeaTest
     @Test
     public void testOkToPlaceShipAt()
     {
-        assertFalse(es.okToPlaceShipAt(0, 0, false, oc));
-        assertFalse(es.okToPlaceShipAt(0, 0, true, oc));
+        assertEquals(true, es.okToPlaceShipAt(0, 0, false, oc));
+        assertEquals(false, es.okToPlaceShipAt(0, 0, true, oc));
     }
 }
