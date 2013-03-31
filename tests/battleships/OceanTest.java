@@ -9,7 +9,6 @@ public class OceanTest
 	private Ocean oc;
 	private Ship[][] board = new Ship[size][size];
 
-    // does it consist of 10x10 with all cells being ship?
     @Before
     public void createOcean()
     {
@@ -27,25 +26,60 @@ public class OceanTest
     @After
     public void tearDown() throws Exception
     {
-        assertEquals(false, false);
+        oc = null;
+        board = null;
     }
 
     @Test
     public void testConstruction()
     {
-        assertEquals(false, false);
+        for(int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                assertFalse(oc.isOccupied());
+            }
+        }
     }
 
     @Test
     public void placeAllShipsRandomly()
     {
-        assertEquals(false, false);
+        int count = 0;
+
+        for(int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                if(oc.isOccupied())
+                {
+                    count++;
+                }
+            }
+        }
+
+        assertEquals(0, count);
+
+        oc.placeAllShipsRandomly();
+
+        for(int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                if(oc.isOccupied())
+                {
+                    count++;
+                }
+            }
+        }
+
+        assertEquals(20, count);
     }
 
     @Test
     public void testIsOccupied()
     {
-    	assertEquals(false, false);
+    	assertFalse(oc.isOccupied());
     }
 
     @Test
@@ -81,14 +115,6 @@ public class OceanTest
         // setup end of game
         /////////////assertTrue(oc.isGameOver());
     	assertEquals(false, false);
-    }
-
-    @Test
-    public void testGameIsNotOver()
-    {
-        // setup nothing
-        /////////assertFalse(oc.isGameOver());
-        assertEquals(false, false);
     }
 
     @Test

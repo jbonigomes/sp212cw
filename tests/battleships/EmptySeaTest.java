@@ -51,6 +51,6 @@ public class EmptySeaTest
     public void testOkToPlaceShipAt()
     {
         assertEquals(true, es.okToPlaceShipAt(0, 0, false, oc));
-        assertEquals(false, es.okToPlaceShipAt(0, 0, true, oc));
+        assertEquals(true, es.okToPlaceShipAt(0, 0, true, oc));
     }
 }

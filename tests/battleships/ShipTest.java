@@ -5,93 +5,92 @@ import static org.junit.Assert.*;
 
 public class ShipTest
 {
+    private BattleShip bs;
+    private Ocean oc;
+
+    @Before
+    public void setUp()
+    {
+        bs = new BattleShip();
+        oc = new Ocean();
+    }
+
+    @After
+    public void tearDown()
+    {
+        bs = null;
+        oc = null;
+    }
+
     @Test
     public void okToPlaceShipAt()
     {
-    	assertEquals(false, false);
+    	assertEquals(true, bs.okToPlaceShipAt(0, 0, true, oc));
+
+        assertEquals(false, bs.okToPlaceShipAt(-1, -1, true, oc));
+        assertEquals(false, bs.okToPlaceShipAt(0, 8, true, oc));
     }
 
     @Test
     public void placeShipAt()
     {
-        assertEquals(false, false);
+        assertFalse(oc.isOccupied(0, 0));
+
+        bs.placeShipAt(0, 0, true, oc);
+
+        assertTrue(oc.isOccupied(0, 0));
     }
 
     @Test
     public void shootAt()
     {
-    	assertEquals(false, false);
+    	assertFalse(oc.shootAt(0, 0));
+        assertFalse(oc.shootAt(1, 0));
+
+        bs.placeShipAt(0, 0, false, oc);
+
+        assertTrue(oc.shootAt(0, 0));
+        assertTrue(oc.shootAt(1, 0));
     }
 
     @Test
     public void isSunk()
     {
-    	assertEquals(false, false);
-    }
+    	assertFalse(bs.isSunk());
 
-    @Test
-    public void isHitEmptySea()
-    {
-    	assertEquals(false, false);
+        bs.placeShipAt(0, 0, false, oc);
+
+        oc.shootAt(0, 0);
+        oc.shootAt(1, 0);
+        oc.shootAt(2, 0);
+        oc.shootAt(3, 0);
+
+        assertTrue(bs.isSunk());
     }
 
     @Test
     public void getSize()
     {
-    	assertEquals(false, false);
+    	assertEquals(4, bs.getSize());
     }
 
     @Test
     public void getType()
     {
-    	assertEquals(false, false);
+    	assertEquals("Battleship", bs.getType());
     }
 
     @Test
     public void getBowRow()
     {
-    	assertEquals(false, false);
+    	bs.placeShipAt(0, 0, false, oc);
+        assertEquals(0, bs.getBowRow());
     }
 
     @Test
     public void getBowColumn()
     {
-    	assertEquals(false, false);
-    }
-
-    @Test
-    public void getNotYetSunk()
-    {
-    	assertEquals(false, false);
-    }
-
-    @Test
-    public void isAreaHit()
-    {
-    	assertEquals(false, false);
-    }
-
-    @Test
-    public void isHorizontal()
-    {
-        assertEquals(false, false);
-    }
-
-    @Test
-    public void setHorizontal()
-    {
-        assertEquals(false, false);
-    }
-
-    @Test
-    public void setBowRow()
-    {
-        assertEquals(false, false);
-    }
-
-    @Test
-    public void setBowColumn()
-    {
-        assertEquals(false, false);
+    	bs.placeShipAt(0, 0, false, oc);
+        assertEquals(0, bs.getBowColumn());
     }
 }
