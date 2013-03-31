@@ -37,7 +37,7 @@ public class OceanTest
         {
             for (int j = 0; j < board[i].length; j++)
             {
-                assertFalse(oc.isOccupied());
+                assertFalse(oc.isOccupied(i, j));
             }
         }
     }
@@ -51,7 +51,7 @@ public class OceanTest
         {
             for (int j = 0; j < board[i].length; j++)
             {
-                if(oc.isOccupied())
+                if(oc.isOccupied(i, j))
                 {
                     count++;
                 }
@@ -66,7 +66,7 @@ public class OceanTest
         {
             for (int j = 0; j < board[i].length; j++)
             {
-                if(oc.isOccupied())
+                if(oc.isOccupied(i, j))
                 {
                     count++;
                 }
@@ -79,100 +79,229 @@ public class OceanTest
     @Test
     public void testIsOccupied()
     {
-    	assertFalse(oc.isOccupied());
+        int count = 0;
+
+        for(int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                if(oc.isOccupied(i, j))
+                {
+                    count++;
+                }
+            }
+        }
+
+        assertEquals(0, count);
+
+        oc.placeAllShipsRandomly();
+
+        for(int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                if(oc.isOccupied(i, j))
+                {
+                    count++;
+                }
+            }
+        }
+
+        assertEquals(20, count);
     }
 
     @Test
     public void shootAt()
     {
-        int x = 3;
-        int y = 4;
-        Ship[][] board = oc.getShipArray();
-        // setup ocean with Ship at x,y
-        board[x][y] = new Submarine();
-        // fire at x,y
-        /////////////////assertTrue(oc.shootAt(x,y));
+        assertFalse(oc.isGameOver());
 
-    	assertEquals(false, false);
+        oc.placeAllShipsRandomly();
+
+        // setup scenario for all hits
+        for(int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                if(!oc.isGameOver())
+                {
+                    oc.shootAt(i, j);
+                }
+            }
+        }
+
+        // test for correct number of hits
+        assertTrue(oc.isGameOver());
     }
 
     @Test
     public void getShotsFired()
     {
-    	assertEquals(false, false);
+    	assertEquals(0, oc.getShotsFired());
+
+        oc.shootAt(0, 0);
+
+        assertEquals(1, oc.getShotsFired());
     }
 
     @Test
     public void getShipSunk()
     {
-    	//////////////////////assertEquals(0,oc.getShipsSunk());
-        assertEquals(false, false);
+    	assertEquals(0, oc.getShipsSunk());
+
+        oc.placeAllShipsRandomly();
+
+        // setup scenario for 20 hits
+        for(int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                if(!oc.isGameOver())
+                {
+                    oc.shootAt(i, j);
+                }
+            }
+        }
+
+        // test for correct number of hits
+        assertEquals(10, oc.getShipsSunk());
     }
 
     @Test
     public void isGameOver()
     {
-        // setup end of game
-        /////////////assertTrue(oc.isGameOver());
-    	assertEquals(false, false);
+        assertFalse(oc.isGameOver());
+
+        oc.placeAllShipsRandomly();
+
+        // setup scenario for 20 hits
+        for(int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                if(!oc.isGameOver())
+                {
+                    oc.shootAt(i, j);
+                }
+            }
+        }
+
+        // test for correct number of hits
+        assertTrue(oc.isGameOver());
     }
 
     @Test
     public void getShipArray()
     {
         Ship[][] ship = oc.getShipArray();
-        for(Ship[] sarr: ship)
+
+        for(Ship[] sarr : ship)
         {
             for(Ship s : sarr)
             {
-                ////////assertTrue(s instanceof Ship);
+                assertTrue(s instanceof Ship);
             }
         }
-    	
-        assertEquals(false, false);
     }
 
     @Test
     public void isSunk()
     {
-    	assertEquals(false, false);
+        int isSunkCount = 0;
+
+        oc.placeAllShipsRandomly();
+
+        assertFalse(oc.isSunk(0, 0));
+
+        // setup scenario for 20 hits
+        for(int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                if(!oc.isGameOver())
+                {
+                    oc.shootAt(i, j);
+                }
+            }
+        }
+
+        // setup scenario for 20 hits
+        for(int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                if(oc.isSunk(i, j))
+                {
+                    isSunkCount++;
+                }
+            }
+        }
+
+        assertEquals(20, isSunkCount);
     }
 
     @Test
     public void getShipType()
     {
-    	assertEquals(false, false);
+        assertEquals("EmptySea", oc.getShipType(0, 0));
     }
 
     @Test
     public void printFinalScores()
     {
-    	assertEquals(false, false);
+    	oc.placeAllShipsRandomly();
+
+        // setup scenario for 20 hits
+        for(int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                if(!oc.isGameOver())
+                {
+                    oc.shootAt(i, j);
+                }
+            }
+        }
+
+        StringBuilder strbld = new StringBuilder();
+        strbld.append("GAME OVER!! You scored ").append(oc.getHitCount()).append(".");
+        strbld.append(" You sank ").append(oc.getShipsSunk()).append(" ships");
+        strbld.append(" and used ").append(oc.getShotsFired()).append(" shots" + ".");
+        
+        assertEquals(strbld.toString(), oc.printFinalScores());
     }
 
     @Test
     public void getDimension()
     {
-    	assertEquals(false, false);
+    	assertEquals(this.size, oc.getDimension());
     }
 
     @Test
     public void testMissAt()
     {
-        assertFalse(oc.shootAt(0,0));
+        assertFalse(oc.shootAt(0, 0));
     }
 
     @Test
-    public void testInitialGetHitCount() throws Exception
+    public void testGetHitCount()
     {
         assertEquals(0, oc.getHitCount());
-    }
 
-    @Test
-    public void testLaterGetHitCount()
-    {
-        // setup scenario for four hits
+        oc.placeAllShipsRandomly();
+
+        // setup scenario for 20 hits
+        for(int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                if(!oc.isGameOver())
+                {
+                    oc.shootAt(i, j);
+                }
+            }
+        }
+
         // test for correct number of hits
-        assertEquals(4, oc.getHitCount());
+        assertEquals(20, oc.getHitCount());
     }
 }
